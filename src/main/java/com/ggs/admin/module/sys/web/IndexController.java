@@ -1,0 +1,86 @@
+package com.ggs.admin.module.sys.web;
+
+import com.ggs.admin.module.sys.model.PermissionModel;
+import com.ggs.admin.module.sys.model.UserModel;
+import com.ggs.admin.module.sys.service.SysService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.List;
+
+@Controller
+@RequestMapping("/admin/")
+public class IndexController extends  BaseController{
+
+    @Autowired
+    private SysService service;
+    @Value("${admin-title}")
+    private String title;
+
+    @RequestMapping("index.do")
+    public String index(ModelMap map, HttpSession session,Integer subsysid,HttpServletResponse response) {
+        UserModel admin  = (UserModel) session.getAttribute("admin");
+        if(admin==null){
+            try {
+                response.sendRedirect("../login.html");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else{
+            List<PermissionModel> permissionModelList = service.getUserPermissions(admin);
+            map.addAttribute("admin",admin);
+            map.addAttribute("permissons",permissionModelList);
+            map.addAttribute("title",title);
+            if(subsysid==null)subsysid=1;
+            map.addAttribute("subsysid",subsysid);
+            return webRoot+"index";
+        }
+        return null;
+
+    }
+
+    @RequestMapping("main.do")
+    public String main(ModelMap map) {
+        return webRoot+"main";
+    }
+
+
+    @RequestMapping("logout.do")
+    public void logout(HttpSession session,HttpServletResponse response){
+        session.removeAttribute("admin");
+        try {
+            response.sendRedirect("../login.html");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping("pwd.html")
+    public String pwd(){
+        return webRoot+"pwd";
+    }
+
+    @RequestMapping("changePwd.do")
+    public void changePwd(UserModel userModel, ModelMap map, @SessionAttribute UserModel  admin){
+        admin.setPassword(userModel.getPassword());
+        service.updateUserPassword(admin);
+        map.put("msg","密码修改成功");
+    }
+
+    @RequestMapping("/")
+    public void webRoot(HttpServletResponse response){
+        try {
+            response.sendRedirect("/admin/index.do");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+}

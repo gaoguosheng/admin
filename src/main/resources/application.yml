@@ -1,0 +1,35 @@
+server:
+  #http端口
+  port: 80
+  #http上下文，默认为根路径
+  context-path: /
+  #session超时（秒）
+  session:
+    timeout: 3600
+
+
+
+spring:
+  datasource:
+    #数据库驱动包
+        driver-class-name: oracle.jdbc.driver.OracleDriver
+        #oracle 连接串
+        url: jdbc:oracle:thin:@10.168.6.71:1521:BCRTMISTest
+        #数据库用户名
+        username: ggs
+        #数据库密码
+        password: ggs
+
+  #模板引擎
+  thymeleaf:
+    prefix: classpath:/static
+    cache: false
+    mode: LEGACYHTML5
+
+mybatis:
+  #mybatis配置文件
+  config-location: classpath:mybatis/mybatis-config.xml
+  #mybatis映射文件
+  mapper-locations: classpath:mybatis/mapper/**/*Mapper.xml
+
+admin-title: 内部管理平台

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <title th:text="${title}"></title>
+    <meta name="renderer" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="format-detection" content="telephone=no"/>
+
+    <link rel="stylesheet" href="../../lib/layui/css/layui.css" media="all"/>
+</head>
+
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header layui-bg-cyan">
+        <div class="layui-logo" th:text="${title}"></div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a href="main.do" target="mainFrame">控制台</a></li>
+            <li class="layui-nav-item" th:each="p,i : ${permissons}" th:if="(${p.pid} == 0)" th:class="${subsysid==p.id?'layui-nav-item layui-this ':'layui-nav-item'}">
+                <a th:href="${p.url}" th:text="${p.name}"></a>
+            </li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img"/>
+                    【<span th:text="${admin.orgname}"></span>】
+                    <span th:text="${admin.username}"></span>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:openPwd();">修改密码</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="javascript:exit();">退出</a></li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black" style="display: no">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+
+                <li class="layui-nav-item layui-nav-itemed" th:each="p,i : ${permissons}" th:if="(${p.pid} == ${subsysid})">
+                    <a  th:text="${p.name}"></a>
+                    <dl class="layui-nav-child">
+                        <dd th:each="p2,j : ${permissons}" th:if="(${p2.pid} == ${p.id})"><a th:text="${p2.name}" th:href="${p2.url}" target="mainFrame"></a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body" style="overflow: hidden">
+        <!-- 内容主体区域 -->
+        <iframe id="mainFrame" name="mainFrame" src="main.do" style="width:100%;height: 100%;" scrolling="no" frameborder="0"></iframe>
+    </div>
+
+  <div class="layui-footer">
+      © 2018 <span th:text="${title}"></span> Power by GGS
+    </div>
+</div>
+<script src="../../lib/jquery/jquery.js" ></script>
+<script src="../../lib/layui/layui.js" charset="utf-8"></script>
+<script>
+    //JavaScript代码区域
+    layui.use('element', function(){
+        var element = layui.element;
+
+    });
+    var layer;
+    layui.use('layer', function(){
+        layer = layui.layer;
+    });
+
+    function openPwd(){
+        layer.open({type:2,content:"pwd.html",area:['480px','320px']});
+    }
+
+    function exit(){
+        layer.confirm('是否确认退出？', function(index){
+            //do something
+            layer.close(index);
+            top.location='logout.do';
+        });
+    }
+
+</script>
+</body>
+
+</html>
