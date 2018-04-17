@@ -22,7 +22,13 @@
             <form class="layui-form" action="">
             <div class="layui-form-item">
                 <div class="layui-inline">
-                    <label class="layui-form-label">ITM单号</label>
+                    <label class="layui-form-label">负责人</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="name"  id="name" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">任务单号</label>
                     <div class="layui-input-inline">
                         <input type="text" name="taskno"  id="taskno" autocomplete="off" class="layui-input">
                     </div>
@@ -109,8 +115,9 @@
                 {type:'numbers'}
                 ,{type: 'checkbox'}
                 ,{field:'CREATEDATE', title:'日期',sort: true,width:110}
-                ,{field:'TASKNO', title:'ITM单号',sort: true,edit: 'text',width:250}
+                ,{field:'TASKNO', title:'任务单号',edit: 'text',width:250}
                 ,{field:'TASKNAME', title: '任务名称', edit: 'text',width:250}
+                ,{field:'TOUSERNAME', title:'负责人',width:80}
                 ,{field:'MONDAY', title: '周一',templet: '#checkDay1', unresize: true,width:60}
                 ,{field:'TUESDAY', title: '周二',templet: '#checkDay2', unresize: true,width:60}
                 ,{field:'WEDNESDAY', title: '周三',templet: '#checkDay3', unresize: true,width:60}

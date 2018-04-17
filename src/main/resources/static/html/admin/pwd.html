@@ -76,8 +76,11 @@
                     data:params,
                     success: function(data){
                         //当你在iframe页面关闭自身时
-                        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-                        parent.layer.close(index); //再执行关闭
+                        layer.alert("密码更新成功",function(){
+                            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                            parent.layer.close(index); //再执行关闭
+                        });
+
                     }
                 });
                 return false;

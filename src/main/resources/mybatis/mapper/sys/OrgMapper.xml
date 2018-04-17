@@ -3,7 +3,11 @@
 <mapper namespace="com.ggs.admin.module.sys.dao.OrgMapper" >
 
     <select id="query" resultType="com.ggs.admin.module.sys.model.OrgModel" parameterType="com.ggs.admin.module.sys.model.OrgModel">
-        select * from SYS_ORG order by id
+        select t.* from SYS_ORG  t where 1=1
+        <if test="orgid!=null and orgid!=''">
+            and t.id  in(select id from ggs.sys_org t  start with t.id=#{orgid} connect by prior t.id=t.pid)
+        </if>
+        order by id
     </select>
 
     <update id="update"  parameterType="com.ggs.admin.module.sys.model.OrgModel">

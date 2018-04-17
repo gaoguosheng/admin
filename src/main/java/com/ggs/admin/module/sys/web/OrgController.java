@@ -1,11 +1,14 @@
 package com.ggs.admin.module.sys.web;
 
 import com.ggs.admin.module.sys.model.OrgModel;
+import com.ggs.admin.module.sys.model.UserModel;
 import com.ggs.admin.module.sys.service.SysService;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.util.List;
 
@@ -24,7 +27,8 @@ public class OrgController extends  BaseController{
 
     @RequestMapping("query.do")
     @ResponseBody
-    public List query(OrgModel orgModel){
+    public List query(OrgModel orgModel, @SessionAttribute UserModel admin){
+        orgModel.setOrgid(admin.getOrgid());
         List list = service.queryOrg(orgModel);
         return  list;
     }

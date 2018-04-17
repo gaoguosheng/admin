@@ -51,6 +51,9 @@
         <if test="username!=null and username!=''">
             and t.username like '%' || #{username} || '%'
         </if>
+        <if test="orgid!=null and orgid!=''">
+            and t. orgid  in(select id from ggs.sys_org t  start with t.id=#{orgid} connect by prior t.id=t.pid)
+        </if>
         order by T.usercode )t)t where t.rn>=#{start} and rownum<![CDATA[<=]]>#{limit}
     </select>
 
@@ -63,6 +66,9 @@
         </if>
         <if test="username!=null and username!=''">
             and t.username like '%' || #{username} || '%'
+        </if>
+        <if test="orgid!=null and orgid!=''">
+            and t. orgid  in(select id from ggs.sys_org t  start with t.id=#{orgid} connect by prior t.id=t.pid)
         </if>
 
     </select>

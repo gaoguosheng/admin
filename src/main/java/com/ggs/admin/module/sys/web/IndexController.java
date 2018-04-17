@@ -1,6 +1,7 @@
 package com.ggs.admin.module.sys.web;
 
 import com.ggs.admin.module.sys.model.PermissionModel;
+import com.ggs.admin.module.sys.model.ResultModel;
 import com.ggs.admin.module.sys.model.UserModel;
 import com.ggs.admin.module.sys.service.SysService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import javax.servlet.http.HttpServletResponse;
@@ -68,10 +70,11 @@ public class IndexController extends  BaseController{
     }
 
     @RequestMapping("changePwd.do")
-    public void changePwd(UserModel userModel, ModelMap map, @SessionAttribute UserModel  admin){
+    @ResponseBody
+    public ResultModel changePwd(UserModel userModel, @SessionAttribute UserModel  admin){
         admin.setPassword(userModel.getPassword());
         service.updateUserPassword(admin);
-        map.put("msg","密码修改成功");
+        return new ResultModel("0","修改密码成功");
     }
 
     @RequestMapping("/")

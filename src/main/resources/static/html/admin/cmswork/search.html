@@ -22,13 +22,19 @@
             <form class="layui-form" action="">
             <div class="layui-form-item">
                 <div class="layui-inline">
+                    <label class="layui-form-label">组织</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="orgname"  id="orgname" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
                     <label class="layui-form-label">负责人</label>
                     <div class="layui-input-inline">
                         <input type="text" name="name"  id="name" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
-                    <label class="layui-form-label">ITM单号</label>
+                    <label class="layui-form-label">任务单号</label>
                     <div class="layui-input-inline">
                         <input type="text" name="taskno"  id="taskno" autocomplete="off" class="layui-input">
                     </div>
@@ -126,10 +132,10 @@
                     ,where:params
                     ,cols: [[
                      {type:'numbers'}
-                     ,{field:'CREATEDATE', title:'创建日期',sort: true,width:110}
-                     ,{field:'CREATEUSERNAME', title:'创建人',width:80}
+                     ,{field:'CREATEDATE', title:'日期',sort: true,width:110}
+                     ,{field:'ORGNAME', title:'组织',width:80}
                      ,{field:'TOUSERNAME', title:'负责人',width:80}
-                     ,{field:'TASKNO', title:'ITM单号',sort: true,width:250}
+                     ,{field:'TASKNO', title:'任务单号',width:250}
                      ,{field:'TASKNAME', title: '任务名称', width:250,event: 'showDetail', style:'cursor: pointer;color:blue'}
                      ,{field:'MONDAY', title: '周一',templet: '#checkDay1', unresize: true,width:60}
                      ,{field:'TUESDAY', title: '周二',templet: '#checkDay2', unresize: true,width:60}

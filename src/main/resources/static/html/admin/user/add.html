@@ -21,6 +21,7 @@
         <!-- 内容主体区域 -->
         <div style="padding: 15px;">
             <form class="layui-form" action="">
+                <input type="hidden" id="admin_orgid" th:value="${admin.orgid}">
                 <input  type="hidden" id="orgid"  name="orgid" value="1"/>
                 <div class="layui-form-item">
                     <label class="layui-form-label">组织</label>
@@ -137,7 +138,7 @@
         $.ajax({
             url: "../org/query.do",
             type: "POST",
-            data:{},
+            data:{orgid:$("#admin_orgid").val()},
             dataType:"json",
             success: function(data){
                 console.log(data);

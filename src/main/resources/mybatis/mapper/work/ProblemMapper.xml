@@ -22,7 +22,7 @@
         <if test="datestart != null and datestart != ''">AND t.createdate <![CDATA[>=]]> #{datestart}</if>
         <if test="dateend != null and dateend != ''">AND t.createdate <![CDATA[<=]]>#{dateend}</if>
         <if test="touser!=null and touser!=''">
-            and t.touser=#{touser}
+            and (t.touser=#{touser} or t.createuser=#{touser})
         </if>
         <if test="isfinish!=null and isfinish!=''">
             and t.isfinish=#{isfinish}
@@ -53,7 +53,7 @@
         <if test="datestart != null and datestart != ''">AND t.createdate <![CDATA[>=]]> #{datestart}</if>
         <if test="dateend != null and dateend != ''">AND t.createdate <![CDATA[<=]]>#{dateend}</if>
         <if test="touser!=null and touser!=''">
-            and t.touser=#{touser}
+            and (t.touser=#{touser} or t.createuser=#{touser})
         </if>
         <if test="isfinish!=null and isfinish!=''">
             and t.isfinish=#{isfinish}

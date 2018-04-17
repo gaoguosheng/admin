@@ -1,6 +1,6 @@
 package com.ggs.admin.module.sys.model;
 
-public class OrgModel {
+public class OrgModel extends BaseModel {
     private int id;
     //名称
     private String name;

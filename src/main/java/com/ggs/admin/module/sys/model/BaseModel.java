@@ -18,6 +18,15 @@ public class BaseModel {
     protected String updatetime;
 
     protected int orgid;
+    protected String orgname;
+
+    public String getOrgname() {
+        return orgname;
+    }
+
+    public void setOrgname(String orgname) {
+        this.orgname = orgname;
+    }
 
     public int getOrgid() {
         return orgid;

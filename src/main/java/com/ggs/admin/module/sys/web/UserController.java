@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.util.List;
 
@@ -29,7 +30,8 @@ public class UserController extends  BaseController {
     }
     @RequestMapping("query.do")
     @ResponseBody
-    public PageModel query(UserModel userModel){
+    public PageModel query(UserModel userModel, @SessionAttribute UserModel admin){
+        userModel.setOrgid(admin.getOrgid());
         PageModel pageModel = service.queryUser(userModel);
         return  pageModel;
     }
@@ -53,20 +55,22 @@ public class UserController extends  BaseController {
     }
 
     @RequestMapping("add.html")
-    public String addHtml(ModelMap map){
+    public String addHtml(ModelMap map,@SessionAttribute UserModel admin){
         List roles = service.getRoles(new UserModel());
         map.addAttribute("roles",roles);
+        map.addAttribute("admin",admin);
         return path+"/add";
     }
 
     @RequestMapping("edit.html")
-    public String editHtml(ModelMap map,UserModel userModel){
+    public String editHtml(ModelMap map,UserModel userModel,@SessionAttribute UserModel admin){
         List roles = service.getRoles(new UserModel());
         List userRoles = service.getRoles(userModel);
         map.addAttribute("roles",roles);
         UserModel user = service.getUser(userModel);
         map.addAttribute("user",user);
         map.addAttribute("userRole",userRoles.get(0));
+        map.addAttribute("admin",admin);
         return path+"/edit";
     }
 

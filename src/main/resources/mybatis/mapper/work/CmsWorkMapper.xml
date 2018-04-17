@@ -8,10 +8,12 @@
       SELECT
         t.*,
         t2.username tousername,
-        t3.username createusername
+        t3.username createusername,
+        t4.name orgname
         FROM cms_work  t
         left join sys_user t2 on t.touser=t2.usercode
         left join sys_user t3 on t.createuser=t3.usercode
+        left join sys_org t4 on t4.id=t3.orgid
         where 1=1
         <if test="name!=null and name!=''">
             and t2.username like '%' ||  #{name} || '%'
@@ -25,15 +27,18 @@
         <if test="datestart != null and datestart != ''">AND t.createdate <![CDATA[>=]]> #{datestart}</if>
         <if test="dateend != null and dateend != ''">AND t.createdate <![CDATA[<=]]>#{dateend}</if>
         <if test="touser!=null and touser!=''">
-            and t.touser=#{touser}
+            and (t.touser=#{touser} or t.createuser=#{touser})
         </if>
         <if test="isfinish!=null and isfinish!=''">
             and t.isfinish=#{isfinish}
         </if>
+        <if test="orgname!=null and orgname!=''">
+            and t4.name like '%' || #{orgname} || '%'
+        </if>
         <if test="orgid!=null and orgid!=''">
             and t.createuser in (select usercode from sys_user where orgid  in(select id from ggs.sys_org t  start with t.id=#{orgid} connect by prior t.id=t.pid) )
         </if>
-        order by t.id desc)t)t where t.rn>=#{start} and rownum<![CDATA[<=]]>#{limit}
+        order by t.isfinish,t.id desc)t)t where t.rn>=#{start} and rownum<![CDATA[<=]]>#{limit}
     </select>
 
     <select id="queryCount" resultType="Integer" parameterType="com.ggs.admin.module.work.model.CmsWorkModel">
@@ -52,7 +57,7 @@
         <if test="datestart != null and datestart != ''">AND t.createdate <![CDATA[>=]]> #{datestart}</if>
         <if test="dateend != null and dateend != ''">AND t.createdate <![CDATA[<=]]>#{dateend}</if>
         <if test="touser!=null and touser!=''">
-            and t.touser=#{touser}
+            and (t.touser=#{touser} or t.createuser=#{touser})
         </if>
         <if test="isfinish!=null and isfinish!=''">
             and t.isfinish=#{isfinish}
@@ -146,6 +151,7 @@
         from ggs.cms_work t  where 1=1
         <if test="datestart != null and datestart != ''">AND t.createdate <![CDATA[>=]]> #{datestart}</if>
         <if test="dateend != null and dateend != ''">AND t.createdate <![CDATA[<=]]>#{dateend}</if>
+        or (t.isfinish!='1' and (t.updatedate <![CDATA[>=]]> #{datestart} and t.updatedate <![CDATA[<=]]>#{dateend}))
         group by t.touser)t2 on t.usercode=t2.touser
         left join (
         select touser,count(*)counter from cms_work t where 1=1

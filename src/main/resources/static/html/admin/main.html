@@ -381,7 +381,9 @@
                     ydata[i]=data[i].TOTALCOUNT-data[i].FINISHCOUNT;
                     ydata2[i]=data[i].FINISHCOUNT;
                     ydata3[i]=data[i].TOTALFINISHCOUNT-data[i].FINISHCOUNT;
-                    ydata4[i]=data[i].UNFINISHCOUNT;
+                    ydata3[i]=ydata3[i]<0?0:ydata3[i];
+                    ydata4[i]=data[i].UNFINISHCOUNT-ydata[i];
+                    ydata4[i]=ydata4[i]<0?0:ydata4[i];
                 }
                 load_bar_charts("worksTotalContainer","人员工作量",xdata,ydata,ydata2,ydata3,ydata4);
             }
