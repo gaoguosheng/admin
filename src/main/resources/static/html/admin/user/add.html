@@ -33,7 +33,7 @@
                     <label class="layui-form-label">角色</label>
                     <div class="layui-input-block">
                         <select name="roleid" >
-                            <option th:each="r,i : ${roles}" th:text="${r.name}"  th:value="${r.id}"></option>
+                            <option th:each="r,i : ${roles}" th:text="${r.name}"  th:value="${r.id}" th:if="${r.id!=999}"></option>
                         </select>
                     </div>
                 </div>
@@ -148,6 +148,7 @@
                 var nodes = zTree.getNodes();
                 if (nodes.length>0) {
                     zTree.selectNode(nodes[0]);
+                    $("#orgid").val(nodes[0].id);
                 }
             }
         });
