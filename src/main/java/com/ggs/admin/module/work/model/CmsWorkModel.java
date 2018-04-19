@@ -18,6 +18,15 @@ public class CmsWorkModel extends BaseModel {
     private String isfinish;
     private String touser;
     private String finishdate;
+    private String ids;
+
+    public String getIds() {
+        return ids;
+    }
+
+    public void setIds(String ids) {
+        this.ids = ids;
+    }
 
     public String getFinishdate() {
         return finishdate;
