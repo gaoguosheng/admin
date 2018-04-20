@@ -151,7 +151,9 @@
         from ggs.cms_work t  where 1=1
         <if test="datestart != null and datestart != ''">AND t.createdate <![CDATA[>=]]> #{datestart}</if>
         <if test="dateend != null and dateend != ''">AND t.createdate <![CDATA[<=]]>#{dateend}</if>
+        <if test="datestart != null and datestart != '' and dateend != null and dateend != ''">
         or (t.isfinish!='1' and (t.updatedate <![CDATA[>=]]> #{datestart} and t.updatedate <![CDATA[<=]]>#{dateend}))
+        </if>
         group by t.touser)t2 on t.usercode=t2.touser
         left join (
         select touser,count(*)counter from cms_work t where 1=1
@@ -177,8 +179,12 @@
         group by t.touser)t7
         on t7.touser=t.usercode
         left join sys_org t5 on t5.id=t.orgid
+        where 1=1
         <if test="orgid!=null and orgid!=''">
-            where t.orgid  in(select id from ggs.sys_org t  start with t.id=#{orgid} connect by prior t.id=t.pid)
+           and  t.orgid  in(select id from ggs.sys_org t  start with t.id=#{orgid} connect by prior t.id=t.pid)
+        </if>
+        <if test="orgname!=null and orgname!=''">
+            and t5.name like '%' || #{orgname} || '%'
         </if>
         order by t.usercode
     </select>
@@ -202,6 +208,49 @@
             )t2 on t.weeks=t2.weeks
             where rownum <![CDATA[<]]> 10
             order by t.weeks
+    </select>
+    
+    <select id="getOrgTotal" parameterType="com.ggs.admin.module.work.model.CmsWorkModel" resultType="HashMap">
+        select t.*,t.name username,nvl(t2.counter,0)totalcount,nvl(t3.counter,0)finishcount from sys_org t
+        left join (
+        select b.orgid,count(*)counter from cms_work a
+        left join sys_user b on a.touser=b.usercode
+        where 1=1
+        <if test="datestart != null and datestart != ''">AND a.createdate <![CDATA[>=]]> #{datestart}</if>
+        <if test="dateend != null and dateend != ''">AND a.createdate <![CDATA[<=]]>#{dateend}</if>
+        group by b.orgid)t2 on t.id=t2.orgid
+        left join (
+        select b.orgid,count(*)counter from cms_work a
+        left join sys_user b on a.touser=b.usercode
+        where a.isfinish=1
+        <if test="datestart != null and datestart != ''">AND a.createdate <![CDATA[>=]]> #{datestart}</if>
+        <if test="dateend != null and dateend != ''">AND a.createdate <![CDATA[<=]]>#{dateend}</if>
+        group by b.orgid)t3 on t.id=t3.orgid
+
+    </select>
+
+
+    <!--获取工作空闲状态-->
+    <select id="getUserTotal" parameterType="com.ggs.admin.module.work.model.CmsWorkModel" resultType="HashMap">
+        select t5.name orgname,t.usercode,t.username,nvl(t3.counter,0) totalcount,nvl(t4.counter,0) finishcount from ggs.sys_user t
+        left join (
+        select touser,count(*)counter from cms_work t where 1=1
+        <if test="datestart != null and datestart != ''">AND t.createdate <![CDATA[>=]]> #{datestart}</if>
+        <if test="dateend != null and dateend != ''">AND t.createdate <![CDATA[<=]]>#{dateend}</if>
+        group by t.touser)t3
+        on t3.touser=t.usercode
+        left join (
+        select touser,count(*)counter from cms_work t where t.isfinish='1'
+        <if test="datestart != null and datestart != ''">AND t.createdate <![CDATA[>=]]> #{datestart}</if>
+        <if test="dateend != null and dateend != ''">AND t.createdate <![CDATA[<=]]>#{dateend}</if>
+        group by t.touser)t4
+        on t4.touser=t.usercode
+        left join sys_org t5 on t5.id=t.orgid
+        where 1=1
+        <if test="orgname!=null and orgname!=''">
+            and t5.name like '%' || #{orgname} || '%'
+        </if>
+        order by t.usercode
     </select>
 
 </mapper>

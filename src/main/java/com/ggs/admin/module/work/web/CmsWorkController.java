@@ -5,6 +5,7 @@ import com.ggs.admin.module.sys.model.UserModel;
 import com.ggs.admin.module.sys.web.BaseController;
 import com.ggs.admin.module.work.model.CmsWorkModel;
 import com.ggs.admin.module.work.service.WorkService;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -104,6 +105,38 @@ public class CmsWorkController  extends BaseController {
         cmsWorkModel.setOrgid(admin.getOrgid());
         List list = service.getWeekWorkFinishStatus(cmsWorkModel);
         return list;
+    }
+
+    @RequestMapping("report.do")
+    public String report(HashMap<String, Object> map) {
+        return path+"/report";
+    }
+
+    @RequestMapping("orgTotal.html")
+    public String orgTotalHtml(HashMap<String, Object> map) {
+        return path+"/orgTotal";
+    }
+
+    @RequestMapping("orgTotal.do")
+    @ResponseBody
+    public List orgTotal(CmsWorkModel cmsWorkModel,@SessionAttribute UserModel  admin){
+        cmsWorkModel.setOrgid(admin.getOrgid());
+        List list = service.getWorkOrgTotal(cmsWorkModel);
+        return list;
+    }
+
+    @RequestMapping("userTotal.do")
+    @ResponseBody
+    public List userTotal(CmsWorkModel cmsWorkModel,@SessionAttribute UserModel  admin){
+        cmsWorkModel.setOrgid(admin.getOrgid());
+        List list = service.getWorkUserTotal(cmsWorkModel);
+        return list;
+    }
+
+    @RequestMapping("userTotal.html")
+    public String userTotalHtml(ModelMap map,CmsWorkModel cmsWorkModel) {
+        map.put("cmswork",cmsWorkModel);
+        return path+"/userTotal";
     }
 
 }

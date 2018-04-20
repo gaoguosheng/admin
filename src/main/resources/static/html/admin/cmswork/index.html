@@ -124,7 +124,7 @@
                 ,{field:'THURSDAY', title: '周四',templet: '#checkDay4', unresize: true,width:60}
                 ,{field:'FRIDAY', title: '周五',templet: '#checkDay5', unresize: true,width:60}
                 ,{field:'ISFINISH', title:'是否竣工', templet:'#checkIsFinish',unresize:true,width:100}
-                ,{field:'REMARK', title:'完成情况', width:250,event: 'setRemark', style:'cursor: pointer;'}
+                ,{field:'REMARK', title:'完成情况', width:350,edit:'text'}
             ]]
             ,page: true
             ,limit:20
@@ -172,35 +172,6 @@
                 });
             });
 
-            //监听单元格事件
-            table.on('tool(cmsWorkTable)', function(obj){
-                var data = obj.data;
-                if(obj.event === 'setRemark'){
-                    layer.prompt({
-                        formType: 2
-                        ,title: '修改 ID 为 ['+ data.ID +'] 的完成情况'
-                        ,value: data.REMARK
-                    }, function(value, index){
-                        $.ajax({
-                            url: "update.do",
-                            type: "POST",
-                            data:"id="+data.ID+"&remark="+value,
-                            success: function(data){
-                                console.log(data);
-                                layer.msg("更新成功");
-                            }
-                        });
-                        layer.close(index);
-
-                        //这里一般是发送修改的Ajax请求
-
-                        //同步更新表格和缓存对应的值
-                        obj.update({
-                            REMARK: value
-                        });
-                    });
-                }
-            });
 
 
             //监听checkbox

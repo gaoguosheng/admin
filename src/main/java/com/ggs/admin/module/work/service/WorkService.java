@@ -162,4 +162,17 @@ public class WorkService{
         return problemMapper.causeTypeTotal(problemModel);
     }
 
+    /**
+     * 获取工作完成情况
+     * */
+    public List<Map<String,Object>>getWorkOrgTotal(CmsWorkModel cmsWorkModel){
+        return cmsWorkMapper.getOrgTotal(cmsWorkModel);
+    }
+
+    /**
+     * 获取工作完成情况
+     * */
+    public List<Map<String,Object>>getWorkUserTotal(CmsWorkModel cmsWorkModel){
+        return cmsWorkMapper.getUserTotal(cmsWorkModel);
+    }
 }

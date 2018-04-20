@@ -12,15 +12,21 @@
     <meta name="format-detection" content="telephone=no"/>
 
     <link rel="stylesheet" href="../../lib/layui/css/layui.css" media="all"/>
+    <style type="text/css">
+        /**右键菜单*/
+        .rightmenu { position: absolute; width: 80px; z-index: 9999; display: none; background-color: #fff; padding: 2px; color: #333; border: 1px solid #eee; border-radius: 2px; cursor: pointer; }
+        .rightmenu li { text-align: center; display: block; height: 25px; line-height: 25px; }
+        .rightmenu li:hover { background-color: #666; color: #fff; }
+    </style>
 </head>
 
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header layui-bg-cyan">
-        <div class="layui-logo" th:text="${title}"></div>
+        <div class="layui-logo" th:text="${title}"  id="animation-left-nav"></div>
         <!-- 头部区域（可配合layui已有的水平导航） -->
         <ul class="layui-nav layui-layout-left">
-            <li class="layui-nav-item"><a href="main.do" target="mainFrame">控制台</a></li>
+            <li class="layui-nav-item"><a href="javascript:loadMain()">首页</a></li>
             <li class="layui-nav-item" th:each="p,i : ${permissons}" th:if="(${p.pid} == 0)" th:class="${subsysid==p.id?'layui-nav-item layui-this ':'layui-nav-item'}">
                 <a th:href="${p.url}" th:text="${p.name}"></a>
             </li>
@@ -43,39 +49,98 @@
     <div class="layui-side layui-bg-black" style="display: no">
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-            <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+            <ul class="layui-nav layui-nav-tree dynamic-navigation"  lay-filter="test" style="position: fixed; ">
 
                 <li class="layui-nav-item layui-nav-itemed" th:each="p,i : ${permissons}" th:if="(${p.pid} == ${subsysid})">
                     <a  th:text="${p.name}"></a>
                     <dl class="layui-nav-child">
-                        <dd th:each="p2,j : ${permissons}" th:if="(${p2.pid} == ${p.id})"><a th:text="${p2.name}" th:href="${p2.url}" target="mainFrame"></a></dd>
+                        <dd th:each="p2,j : ${permissons}" th:if="(${p2.pid} == ${p.id})"><a th:text="${p2.name}"  th:href="${'javascript:active.tabAdd('''+p2.name+''',''' +p2.url+''','+p2.id+')'}"></a></dd>
                     </dl>
                 </li>
             </ul>
         </div>
     </div>
 
-    <div class="layui-body" style="overflow: hidden">
+    <div class="layui-body" >
         <!-- 内容主体区域 -->
-        <iframe id="mainFrame" name="mainFrame" src="main.do" style="width:100%;height: 100%;" scrolling="no" frameborder="0"></iframe>
+        <div class="layui-tab" lay-filter="demo" lay-allowclose="true">
+            <ul class="layui-tab-title">
+            </ul>
+            <div class="layui-tab-content">
+            </div>
+        </div>
     </div>
 
   <div class="layui-footer">
       © 2018 <span th:text="${title}"></span> Power by GGS Spring Boot
     </div>
+
+    <ul class="rightmenu">
+        <li data-type="closethis">关闭当前</li>
+        <li data-type="closeall">关闭所有</li>
+    </ul>
 </div>
 <script src="../../lib/jquery/jquery.js" ></script>
 <script src="../../lib/layui/layui.js" charset="utf-8"></script>
 <script>
-    //JavaScript代码区域
-    layui.use('element', function(){
-        var element = layui.element;
-
-    });
+    var $;
     var layer;
+    var element;
     layui.use('layer', function(){
         layer = layui.layer;
     });
+
+    layui.use('element', function(){
+         $= layui.jquery;
+        element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+
+        loadMain();
+    });
+
+    //触发事件
+    var active = {
+        tabAdd: function (title,url, id) {
+
+            var exist = false;
+            $.each($(".layui-tab-title li[lay-id]"), function () {
+                if ($(this).attr("lay-id") == id) {
+                    exist = true;
+                }
+            })
+
+            if(!exist){
+                //新增一个Tab项
+                element.tabAdd('demo', {
+                    title: title //用于演示
+                    , content: '<iframe data-frameid="'+id+'" frameborder="0" name="content" scrolling="no" width="100%" src="' + url + '"></iframe>'
+                    , id: id //实际使用一般是规定好的id，这里以时间戳模拟下
+                });
+            }
+            CustomRightClick(id);//绑定右键菜单
+            active.tabChange(id);
+            FrameWH();//计算框架高度
+
+        }
+        ,tabDelete:  function (id) {
+            element.tabDelete("demo", id);//删除
+            $.each($(".layui-tab-title li[lay-id]"), function () {
+                var id=$(this).attr("lay-id");
+                active.tabChange(id);
+            })
+        }
+        ,tabChange: function (id) {
+            //切换到指定Tab项
+            element.tabChange('demo', id); //切换到：用户管理
+            $("iframe[data-frameid='"+id+"']").attr("src",$("iframe[data-frameid='"+id+"']").attr("src"))//切换后刷新框架
+        },
+        tabDeleteAll: function (ids) {//删除所有
+            $.each(ids, function (i,item) {
+                element.tabDelete("demo", item);
+            })
+        }
+    };
+
+
 
     function openPwd(){
         layer.open({type:2,content:"pwd.html",area:['480px','320px']});
@@ -89,7 +154,82 @@
         });
     }
 
+    function FrameWH() {
+        var h = $(window).height() -200;
+        $("iframe").css("height",h+"px");
+    }
+
+    //绑定右键菜单
+    function CustomRightClick(id) {
+        //取消右键
+        $('.layui-tab-title li').on('contextmenu', function () { return false; })
+        $('.layui-tab-title,.layui-tab-title li').click(function () {
+            $('.rightmenu').hide();
+        });
+        //桌面点击右击
+        $('.layui-tab-title li').on('contextmenu', function (e) {
+            var popupmenu = $(".rightmenu");
+            popupmenu.find("li").attr("data-id",id);
+            l = ($(document).width() - e.clientX) < popupmenu.width() ? (e.clientX - popupmenu.width()) : e.clientX;
+            t = ($(document).height() - e.clientY) < popupmenu.height() ? (e.clientY - popupmenu.height()) : e.clientY;
+            popupmenu.css({ left: l, top: t }).show();
+            //alert("右键菜单")
+            return false;
+        });
+    }
+
+    $(".rightmenu li").click(function () {
+        if ($(this).attr("data-type") == "closethis") {
+            active.tabDelete($(this).attr("data-id"))
+        } else if ($(this).attr("data-type") == "closeall") {
+            var tabtitle = $(".layui-tab-title li");
+            var ids = new Array();
+            $.each(tabtitle, function (i) {
+                ids[i] = $(this).attr("lay-id");
+            })
+
+            active.tabDeleteAll(ids);
+        }
+
+        $('.rightmenu').hide();
+    })
+
+    $(window).resize(function () {
+        FrameWH();
+    })
+
+
+    function loadMain(){
+        active.tabAdd("首页","main.do","main");
+    }
+
+    var i=0;
+
+    //左侧导航栏收缩功能动画效果
+    $('#animation-left-nav').click(function(){
+        //这里定义一个全局变量来方便判断动画收缩的效果,也就是放在最外面
+        if(i==0){
+            $(".layui-side").animate({width:'toggle'});
+            $(".layui-body").animate({left:'0px'});
+            $(".layui-footer").animate({left:'0px'});
+            i++;
+        }else{
+            $(".layui-side").animate({width:'toggle'});
+            $(".layui-body").animate({left:'200px'});
+            $(".layui-footer").animate({left:'200px'});
+            i--;
+        }
+    });
+    //左侧导航栏收缩提示
+    $('#animation-left-nav').hover(function(){
+        layer.tips('收缩左侧导航栏', '#animation-left-nav', {tips:[4,'#FF8000'],time:0});
+    },function(){
+        layer.closeAll('tips');
+    });
+
+
 </script>
 </body>
+
 
 </html>
