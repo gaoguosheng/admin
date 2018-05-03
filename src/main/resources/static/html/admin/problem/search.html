@@ -111,7 +111,7 @@
                 {type:'numbers'}
                 ,{field:'CREATEDATE', title:'日期',sort: true,width:110}
                 ,{field:'CREATEUSERNAME', title:'创建人',width:110}
-                ,{field:'TITLE', title:'摘要',width:200,event: 'showDetail', style:'cursor: pointer;color:blue'}
+                ,{field:'TITLE', title:'摘要',width:300,event: 'showDetail', style:'cursor: pointer;color:blue'}
                 ,{field:'CATEGORYNAME', title:'分类',width:150}
                 ,{field:'SEVERITYNAME', title:'严重级别',width:150}
                 ,{field:'CAUSETYPENAME', title:'原因类别',width:150}
@@ -155,7 +155,13 @@
                     ,field = obj.field; //得到字段
                 //layer.msg('[ID: '+ data.ID +'] ' + field.toLowerCase() + ' 字段更改为：'+ value);
                 if(obj.event === 'showDetail'){
-                    layer.open({type:2,content:"detail.html?id="+data.ID,area:['800px','580px']});
+                    layer.open({title:'查看',type:2,content:"detail.html?id="+data.ID,area:['100%','100%']
+                        ,btn: ['关闭']
+                        ,yes: function(index, layero){
+                            //按钮【按钮一】的回调
+                            layer.close(index);
+                        }
+                    });
                 }
             });
 

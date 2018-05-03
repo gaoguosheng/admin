@@ -175,4 +175,19 @@ public class WorkService{
     public List<Map<String,Object>>getWorkUserTotal(CmsWorkModel cmsWorkModel){
         return cmsWorkMapper.getUserTotal(cmsWorkModel);
     }
+
+
+    /**
+     * 获取工作完成情况
+     * */
+    public List<Map<String,Object>>getProblemOrgTotal(ProblemModel problemModel){
+        return problemMapper.getOrgTotal(problemModel);
+    }
+
+    /**
+     * 获取工作完成情况
+     * */
+    public List<Map<String,Object>>getProblemUserTotal(ProblemModel problemModel){
+        return problemMapper.getUserTotal(problemModel);
+    }
 }

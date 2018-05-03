@@ -223,7 +223,17 @@
                  * 添加业务
                  * */
                 addAction:function(){
-                    layer.open({type:2,content:"add.html",area:['800px','580px']});
+                    layer.open({title:'增加',type:2,content:"add.html",area:['100%','100%']
+                        ,btn: ['保存','关闭']
+                        ,yes: function(index, layero){
+                            //按钮【按钮一】的回调
+                            $(window.frames[0].document).find("#saveBtn").click();
+                            layer.close(index);
+                        }
+                        ,btn2: function(index, layero){
+                            //按钮【按钮一】的回调
+                        }
+                    });
 
                 },
 
@@ -243,7 +253,17 @@
                         layer.alert("只能选中一行数据进行修改");
                         return false;
                     }
-                     layer.open({type:2,content:"edit.html?id="+data[0].ID,area:['800px','580px']});
+                     layer.open({title:'修改',type:2,content:"edit.html?id="+data[0].ID,area:['100%','100%']
+                         ,btn: ['保存','关闭']
+                         ,yes: function(index, layero){
+                             //按钮【按钮一】的回调
+                             $(window.frames[0].document).find("#saveBtn").click();
+                             layer.close(index);
+                         }
+                         ,btn2: function(index, layero){
+                             //按钮【按钮一】的回调
+                         }
+                     });
 
             },
 
@@ -262,7 +282,7 @@
                         layer.alert("只能选中一名指派人员");
                         return false;
                     }
-                    layer.open({type:2,content:"touser.html?id="+data[0].ID,area:['900px','480px']});
+                    layer.open({title:'指派',type:2,content:"touser.html?id="+data[0].ID,area:['100%','100%']});
                 }
             };
 

@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="../../lib/layui/css/layui.css" media="all"/>
 </head>
 
-<body class="layui-layout-body">
+<body>
 
 <div class="layui-btn-group">
     <button class="layui-btn" onclick="loadFreeTable({datestart:getLastWeekStartDate(),dateend:getLastWeekEndDate()});">上周</button>
@@ -489,7 +489,6 @@
 
     $(function(){
         var h=screen.availHeight-200;
-        $("#reportDiv").css("height",h+"px");
         $("#myTimelineDiv").css("height",h+"px");
     });
 

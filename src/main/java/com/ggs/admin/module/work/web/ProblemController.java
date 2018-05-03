@@ -135,4 +135,24 @@ public class ProblemController extends BaseController {
         return list;
     }
 
+
+    @RequestMapping("orgTotal.html")
+    public String orgTotalHtml(HashMap<String, Object> map) {
+        return path+"/orgTotal";
+    }
+
+    @RequestMapping("orgTotal.do")
+    @ResponseBody
+    public List orgTotal(ProblemModel problemModel,@SessionAttribute UserModel  admin){
+        problemModel.setOrgid(admin.getOrgid());
+        List list = service.getProblemOrgTotal(problemModel);
+        return list;
+    }
+
+    @RequestMapping("causeTotal.html")
+    public String userTotalHtml(ModelMap map,ProblemModel problemModel) {
+        map.put("problem",problemModel);
+        return path+"/causeTotal";
+    }
+
 }

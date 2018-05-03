@@ -19,4 +19,6 @@ public interface ProblemMapper {
     public ProblemModel queryById(ProblemModel problemModel);
     public List<Map<String,Object>>getWeekProblemFinishStatus(ProblemModel problemModel);
     public List<Map<String,Object>>causeTypeTotal(ProblemModel problemModel);
+    public List<Map<String,Object>>getOrgTotal(ProblemModel problemModel);
+    public List<Map<String,Object>>getUserTotal(ProblemModel problemModel);
 }
