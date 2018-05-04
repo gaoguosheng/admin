@@ -5,7 +5,7 @@ server:
   context-path: /
   #session超时（秒）
   session:
-    timeout: 3600
+    timeout: 60
 
 
 

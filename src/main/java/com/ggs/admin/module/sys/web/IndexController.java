@@ -11,11 +11,16 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.context.annotation.ApplicationScope;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.Vector;
 
 @Controller
 @RequestMapping("/admin/")
@@ -42,6 +47,13 @@ public class IndexController extends  BaseController{
             map.addAttribute("title",title);
             if(subsysid==null)subsysid=1;
             map.addAttribute("subsysid",subsysid);
+            ServletContext context = session.getServletContext();
+            Set<String> onlineList = (Set<String>) context.getAttribute("onlineList");
+            if(onlineList==null){
+                onlineList = new HashSet<String>();
+            }
+            onlineList.add(admin.getUsercode());
+            context.setAttribute("onlineList",onlineList);
             return webRoot+"index";
         }
         return null;
@@ -56,7 +68,12 @@ public class IndexController extends  BaseController{
 
     @RequestMapping("logout.do")
     public void logout(HttpSession session,HttpServletResponse response){
+        ServletContext context = session.getServletContext();
+        UserModel admin = (UserModel) session.getAttribute("admin");
+        Set<String> onlineList = (Set<String>) context.getAttribute("onlineList");
+        onlineList.remove(admin.getUsercode());
         session.removeAttribute("admin");
+        session.invalidate();
         try {
             response.sendRedirect("../login.html");
         } catch (IOException e) {
@@ -84,6 +101,14 @@ public class IndexController extends  BaseController{
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @RequestMapping("online.do")
+    @ResponseBody
+    public Set getOnlineList(HttpSession session){
+        ServletContext context = session.getServletContext();
+        Set list = (Set) context.getAttribute("onlineList");
+        return list;
     }
 
 }
