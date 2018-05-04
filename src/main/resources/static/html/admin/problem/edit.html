@@ -48,15 +48,18 @@
                             </select>
                         </div>
                     </div>
-                    <div class="layui-inline">
-                        <label class="layui-form-label">摘要</label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="title"  id="title" autocomplete="off" class="layui-input" required  th:value="${problem.title}" maxlength="50">
-                        </div>
-                    </div>
+
                 </div>
 
 
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">摘要</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="title"  id="title" autocomplete="off" class="layui-input" required  th:value="${problem.title}" maxlength="50" style="width: 550px;">
+                        </div>
+                    </div>
+                </div>
 
                 <div class="layui-form-item">
                 <div class="layui-inline">
