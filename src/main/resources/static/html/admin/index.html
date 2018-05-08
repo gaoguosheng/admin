@@ -77,8 +77,8 @@
 
   <div class="layui-footer">
       <div  class="layui-row">
-          <div class="layui-col-md6" >
-              在线人数：<span  id="onlineCountSpan" class="layui-badge">0</span>
+          <div class="layui-col-md6">
+              在线人数：<span  id="onlineCountSpan" class="layui-badge" style="cursor:pointer;">0</span>
           </div>
           <div class="layui-col-md6"  align="right">
               © 2018 <span th:text="${title}"></span> Power by GGS Spring Boot  &nbsp;&nbsp;&nbsp;&nbsp;
@@ -95,6 +95,7 @@
 <script src="../../lib/jquery/jquery.js" ></script>
 <script src="../../lib/layui/layui.js" charset="utf-8"></script>
 <script>
+    var onlines;
     var $;
     var layer;
     var element;
@@ -248,14 +249,11 @@
             success: function(data){
                 console.log(data);
                 $("#onlineCountSpan").html(data.length);
-                var onlines = "";
+                onlines = "";
                 for(i in data){
                     onlines+=data[i]+" ";
                 }
                 $("#onlineCountSpan").attr("title",onlines);
-                $("#onlineCountSpan").click(function(){
-                   layer.alert("在线列表："+onlines);
-                });
             }
         });
     }
@@ -263,6 +261,14 @@
     $(function(){
        getOnlineList();//获取在线人数
         window.setInterval(getOnlineList,10*1000);
+        $("#onlineCountSpan").click(function(){
+            var s = onlines.split(" ");
+            var html="";
+            for(var i in s){
+                html+=s[i]+"<br/>"
+            }
+            layer.alert(html);
+        });
     });
 
 </script>
