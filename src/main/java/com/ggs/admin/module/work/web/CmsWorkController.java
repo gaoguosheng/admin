@@ -139,4 +139,17 @@ public class CmsWorkController  extends BaseController {
         return path+"/userTotal";
     }
 
+    @RequestMapping("trend.html")
+    public String trend(ModelMap map,CmsWorkModel cmsWorkModel) {
+        map.put("cmswork",cmsWorkModel);
+        return path+"/trend";
+    }
+
+    @RequestMapping("trend.do")
+    @ResponseBody
+    public List trend(CmsWorkModel cmsWorkModel,@SessionAttribute UserModel  admin){
+        List list = service.getWeekWorkFinishStatus(cmsWorkModel);
+        return list;
+    }
+
 }

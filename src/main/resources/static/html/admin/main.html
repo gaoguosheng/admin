@@ -16,65 +16,79 @@
 
 <body>
 
-<div class="layui-btn-group">
-    <button class="layui-btn" onclick="loadFreeTable({datestart:getLastWeekStartDate(),dateend:getLastWeekEndDate()});">上周</button>
-    <button class="layui-btn " onclick="loadFreeTable({datestart:getWeekStartDate(),dateend:getWeekEndDate()});">本周</button>
-</div>
+<div style="padding: 20px; background-color: #F2F2F2;">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md8">
+            <div class="layui-card">
+                <div class="layui-card-header"><b>任务总览</b><span id="dateRange"></span>
+                    <button class="layui-btn layui-btn-xs layui-btn-normal" onclick="loadFreeTable({datestart:getLastWeekStartDate(),dateend:getLastWeekEndDate()});">上周</button>
+                    <button class="layui-btn layui-btn-xs layui-btn-normal" onclick="loadFreeTable({datestart:getWeekStartDate(),dateend:getWeekEndDate()});">本周</button></div>
+                <div class="layui-card-body">
+                    <table class="layui-hide" id="cmsWorkTable" lay-filter="cmsWorkTable"></table>
 
-<div  class="layui-row">
-        <div class="layui-col-md6" >
-            <div class="layui-tab">
-                <ul class="layui-tab-title">
-                    <li class="layui-this">任务分配情况<span id="dateRange"></span></li>
-                    <li>任务时间线</li>
-                </ul>
-                <div class="layui-tab-content">
-                    <div class="layui-tab-item layui-show">
-                        <table class="layui-hide" id="cmsWorkTable" lay-filter="cmsWorkTable"></table>
+                    <script type="text/html" id="checkDay1">
+                        <!-- 这里的 checked 的状态只是演示 -->
+                        <input type="checkbox" name="monday" value="{{d.ID}}" title=""  {{ d.MONDAY > 0 ? 'checked' : '' }}  lay-filter="checkITem" />
+                    </script>
+                    <script type="text/html" id="checkDay2">
+                        <!-- 这里的 checked 的状态只是演示 -->
+                        <input type="checkbox" name="tuesday" value="{{d.ID}}" title=""  {{ d.TUESDAY >0 ? 'checked' : '' }}  lay-filter="checkITem" />
+                    </script>
+                    <script type="text/html" id="checkDay3">
+                        <!-- 这里的 checked 的状态只是演示 -->
+                        <input type="checkbox" name="wednesday" value="{{d.ID}}" title=""  {{ d.WEDNESDAY > 0 ? 'checked' : '' }}  lay-filter="checkITem" />
+                    </script>
+                    <script type="text/html" id="checkDay4">
+                        <!-- 这里的 checked 的状态只是演示 -->
+                        <input type="checkbox" name="thursday" value="{{d.ID}}" title=""  {{ d.THURSDAY > 0 ? 'checked' : '' }}  lay-filter="checkITem" />
+                    </script>
+                    <script type="text/html" id="checkDay5">
+                        <!-- 这里的 checked 的状态只是演示 -->
+                        <input type="checkbox" name="friday" value="{{d.ID}}" title=""  {{ d.FRIDAY > 0 ? 'checked' : '' }}  lay-filter="checkITem" />
+                    </script>
 
-                        <script type="text/html" id="checkDay1">
-                            <!-- 这里的 checked 的状态只是演示 -->
-                            <input type="checkbox" name="monday" value="{{d.ID}}" title=""  {{ d.MONDAY > 0 ? 'checked' : '' }}  lay-filter="checkITem" />
-                        </script>
-                        <script type="text/html" id="checkDay2">
-                            <!-- 这里的 checked 的状态只是演示 -->
-                            <input type="checkbox" name="tuesday" value="{{d.ID}}" title=""  {{ d.TUESDAY >0 ? 'checked' : '' }}  lay-filter="checkITem" />
-                        </script>
-                        <script type="text/html" id="checkDay3">
-                            <!-- 这里的 checked 的状态只是演示 -->
-                            <input type="checkbox" name="wednesday" value="{{d.ID}}" title=""  {{ d.WEDNESDAY > 0 ? 'checked' : '' }}  lay-filter="checkITem" />
-                        </script>
-                        <script type="text/html" id="checkDay4">
-                            <!-- 这里的 checked 的状态只是演示 -->
-                            <input type="checkbox" name="thursday" value="{{d.ID}}" title=""  {{ d.THURSDAY > 0 ? 'checked' : '' }}  lay-filter="checkITem" />
-                        </script>
-                        <script type="text/html" id="checkDay5">
-                            <!-- 这里的 checked 的状态只是演示 -->
-                            <input type="checkbox" name="friday" value="{{d.ID}}" title=""  {{ d.FRIDAY > 0 ? 'checked' : '' }}  lay-filter="checkITem" />
-                        </script>
 
-                    </div>
-                    <div class="layui-tab-item">
-                        <div class="grid-demo" style="height: 500px;overflow-y: auto;" id="myTimelineDiv">
-                            <ul class="layui-timeline" id="myTimeline">
-                            </ul>
-                        </div>
-                    </div>
+
+
+
 
                 </div>
             </div>
-
-
+        </div>
+        <div class="layui-col-md4">
+            <div class="layui-card">
+                <div class="layui-card-header"><b>周趋势分析</b></div>
+                <div class="layui-card-body">
+                    <div id="weeksTotalContainer" style="height: 200px;"></div>
+                    <div id="weeksProblemTotalContainer" style="height: 200px;"></div>
+                </div>
+            </div>
         </div>
 
-        <div class="layui-col-md6"  style=" height: 100%;overflow-y: auto" id="reportDiv">
-            <div id="weeksTotalContainer" style="height: 250px;"></div>
-            <div id="worksTotalContainer" style="height: 250px;"></div>
-            <div id="weeksProblemTotalContainer" style="height: 250px;"></div>
-            <div id="problemCauseTotalContainer" style="height: 250px;"></div>
+        <div class="layui-col-md8">
+            <div class="layui-card">
+                <div class="layui-card-header"><b>工作量分配</b></div>
+                <div class="layui-card-body">
+                    <div id="worksTotalContainer" style="height: 200px;"></div>
+                </div>
+            </div>
         </div>
 
+        <div class="layui-col-md4">
+            <div class="layui-card">
+                <div class="layui-card-header"><b>问题分析</b></div>
+                <div class="layui-card-body">
+                    <div id="problemCauseTotalContainer" style="height: 200px;"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
+
+
+
+
 
  <script src="../../lib/jquery/jquery.js" ></script>
 <script src="../../lib/layui/layui.js" charset="utf-8"></script>
@@ -131,7 +145,7 @@
                 ,{field:'TOTALFINISHCOUNT', title:'竣工总量',width:100}
             ]]
             ,page: false
-            ,height: 'full-100'
+            ,height: '380px'
             ,done: function(res, curr, count){
                 element.init();
             }
@@ -145,28 +159,6 @@
     }
 
 
-    function loadTimeline(){
-        $.ajax({
-            url: "cmswork/queryAll.do",
-            type: "POST",
-            data:{page:1,limit:20},
-            dataType:'json',
-            success: function(data){
-                console.log(data);
-                var html="";
-                var d = data.data;
-                for(i in d){
-                    html+=" <li class=\"layui-timeline-item\">";
-                    html+=" <i class=\"layui-icon layui-timeline-axis\"></i>";
-                    html+="<div class=\"layui-timeline-content layui-text\">";
-                    html+="<div class=\"layui-timeline-title\">"+d[i].CREATEDATE+" "+d[i].CREATETIME+" "+d[i].CREATEUSERNAME+" 创建了任务【"+d[i].TASKNAME+"】，"+(d[i].ISFINISH=="1"?"已竣工，竣工日期为"+d[i].FINISHDATE:"<font color='red'>暂未竣工</font>")+"</div>";
-                    html+="</div>";
-                    html+="</li>";
-                }
-                $("#myTimeline").html(html);
-            }
-        });
-    }
 
 
     function loadWeekTotal(){
@@ -478,19 +470,11 @@
         }
     }
 
-    loadTimeline();//加载时间线
 
     loadWeekTotal();//加载周统计
 
     loadWeekProblemTotal();//加载问题周统计
 
-
-
-
-    $(function(){
-        var h=screen.availHeight-200;
-        $("#myTimelineDiv").css("height",h+"px");
-    });
 
 
 

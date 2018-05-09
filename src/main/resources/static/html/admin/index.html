@@ -50,12 +50,12 @@
         </ul>
     </div>
 
-    <div class="layui-side layui-bg-black" style="display: no">
+    <div class="layui-side layui-bg-black">
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-            <ul class="layui-nav layui-nav-tree dynamic-navigation"  lay-filter="test" style="position: fixed; ">
+            <ul class="layui-nav layui-nav-tree dynamic-navigation"  lay-filter="test" style="position: fixed; " id="side-nav">
 
-                <li class="layui-nav-item layui-nav-itemed" th:each="p,i : ${permissons}" th:if="(${p.pid} == ${subsysid})">
+                <li class="layui-nav-item" th:each="p,i : ${permissons}" th:if="(${p.pid} == ${subsysid})">
                     <a  th:text="${p.name}"></a>
                     <dl class="layui-nav-child">
                         <dd th:each="p2,j : ${permissons}" th:if="(${p2.pid} == ${p.id})"><a th:text="${p2.name}"  th:href="${'javascript:active.tabAdd('''+p2.name+''',''' +p2.url+''','+p2.id+')'}"></a></dd>
@@ -81,7 +81,7 @@
               在线人数：<span  id="onlineCountSpan" class="layui-badge" style="cursor:pointer;">0</span>
           </div>
           <div class="layui-col-md6"  align="right">
-              © 2018 <span th:text="${title}"></span> Power by GGS Spring Boot  &nbsp;&nbsp;&nbsp;&nbsp;
+              <span th:text="${title}"></span> © 2018  <a href="#" target="_blank">GGS.</a> All Rights Reserved
           </div>
       </div>
 
@@ -269,7 +269,22 @@
             }
             layer.alert(html);
         });
+
+        $($("#side-nav .layui-nav-item")[0]).addClass("layui-nav-itemed");
     });
+
+
+    $("#side-nav .layui-nav-item").click(function(){
+        $("#side-nav .layui-nav-item").removeClass("layui-nav-itemed");
+        $("#side-nav .layui-nav-item").removeClass("layui-this");
+        if($(this).has('dl').length){//如果有子菜单，显示下拉样式
+            $(this).addClass("layui-nav-itemed");
+        }else{//如果没有子菜单，显示菜单项样式
+            $(this).addClass("layui-this");
+        }
+    });
+
+
 
 </script>
 </body>

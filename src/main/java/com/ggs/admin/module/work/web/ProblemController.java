@@ -155,4 +155,17 @@ public class ProblemController extends BaseController {
         return path+"/causeTotal";
     }
 
+    @RequestMapping("trend.html")
+    public String trend(ModelMap map,ProblemModel problemModel) {
+        map.put("problem",problemModel);
+        return path+"/trend";
+    }
+
+    @RequestMapping("trend.do")
+    @ResponseBody
+    public List trend(ProblemModel problemModel,@SessionAttribute UserModel  admin){
+        List list = service.getWeekProblemFinishStatus(problemModel);
+        return list;
+    }
+
 }
