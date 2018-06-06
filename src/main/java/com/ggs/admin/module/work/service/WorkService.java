@@ -190,4 +190,25 @@ public class WorkService{
     public List<Map<String,Object>>getProblemUserTotal(ProblemModel problemModel){
         return problemMapper.getUserTotal(problemModel);
     }
+
+    /**
+     * 获得用户排名
+     * */
+    public PageModel userRanking(CmsWorkModel cmsWorkModel) {
+        String code="0";
+        String msg="";
+        List list = null;
+        Integer counter=0;
+        try {
+            list = cmsWorkMapper.userRanking(cmsWorkModel);
+            counter= list.size();
+        }catch (Exception e){
+            e.printStackTrace();
+            code="1";
+            msg="查询失败";
+        }
+        PageModel pageModel =new PageModel(code,msg,counter,list);
+        return pageModel;
+
+    }
 }

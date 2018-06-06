@@ -22,4 +22,5 @@ public interface CmsWorkMapper {
     public List<Map<String,Object>>getWeekWorkFinishStatus(CmsWorkModel cmsWorkModel);
     public List<Map<String,Object>>getOrgTotal(CmsWorkModel cmsWorkModel);
     public List<Map<String,Object>>getUserTotal(CmsWorkModel cmsWorkModel);
+    public List<Map<String,Object>>userRanking(CmsWorkModel cmsWorkModel);
 }

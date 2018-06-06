@@ -152,4 +152,18 @@ public class CmsWorkController  extends BaseController {
         return list;
     }
 
+
+    @RequestMapping("userRanking.html")
+    public String userRankingHtml(ModelMap map,CmsWorkModel cmsWorkModel) {
+        map.addAttribute("model",cmsWorkModel);
+        return path+"/userRanking";
+    }
+
+    @RequestMapping("userRanking.do")
+    @ResponseBody
+    public PageModel userRanking(CmsWorkModel cmsWorkModel,@SessionAttribute UserModel  admin){
+        PageModel pageModel = service.userRanking(cmsWorkModel);
+        return  pageModel;
+    }
+
 }

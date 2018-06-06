@@ -61,7 +61,8 @@ public class IndexController extends  BaseController{
     }
 
     @RequestMapping("main.do")
-    public String main(ModelMap map) {
+    public String main(ModelMap map,@SessionAttribute UserModel  admin) {
+        map.addAttribute("admin",admin);
         return webRoot+"main";
     }
 
