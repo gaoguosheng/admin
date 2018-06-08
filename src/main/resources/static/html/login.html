@@ -14,36 +14,38 @@
     <link rel="stylesheet" href="../lib/layui/css/layui.css" media="all"/>
 </head>
 
-<body class="layui-layout-body">
-<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-    <legend th:text="${title}"></legend>
-</fieldset>
-<form class="layui-form" action="checkLogin.do"  method="post" >
-    <div class="layui-form-item">
-        <label class="layui-form-label">账号</label>
-        <div class="layui-input-inline">
-            <input type="text" name="usercode"  id="usercode" placeholder="请输入账号" autocomplete="off" class="layui-input" value="" required >
-        </div>
+<body class="layui-layout-body" >
+
+    <div align="center">
+    <table  cellpadding="10" cellspacing="2" border="0" style="margin: 60px;line-height: 60px;">
+        <caption th:text="${title}" style="font-weight: bold;font-size: large"></caption>
+        <form class="layui-form" action="checkLogin.do"  method="post" >
+        <tr>
+            <td align="right">账号：</td>
+            <td><input type="text" name="usercode"  id="usercode" placeholder="请输入账号" autocomplete="off" class="layui-input" value="" required  style="width: 200px;"></td>
+        </tr>
+        <tr>
+            <td align="right">密码：</td>
+            <td><input type="password" name="password" lay-verify="pass" placeholder="请输入密码" autocomplete="off" class="layui-input" value="" required style="width: 200px;"></td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td><button class="layui-btn" lay-submit="" lay-filter="login"  onclick="saveLogin();" style="width: 200px;">登录</button></td>
+        </tr>
+            <tr>
+                <td colspan="2">
+                    <span th:text="${title}"></span> © 2018  <a href="#" target="_blank">GGS.</a> All Rights Reserved
+                </td>
+            </tr>
+        </form>
+    </table>
     </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">密码</label>
-        <div class="layui-input-inline">
-            <input type="password" name="password" lay-verify="pass" placeholder="请输入密码" autocomplete="off" class="layui-input" value="" required>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">&nbsp;</label>
-        <div class="layui-input-inline">
-            <button class="layui-btn" lay-submit="" lay-filter="login"  onclick="saveLogin();">登录</button>
-        </div>
-    </div>
-</form>
-<br/>
-<h3 th:text="${msg}" align="center"></h3>
+
 <script src="../lib/jquery/jquery.js"></script>
 <script src="../lib/jquery/jquery.cookie.js"></script>
 <script src="../lib/layui/layui.js" charset="utf-8"></script>
 <script>
+
 
     function saveLogin(){
         $.cookie('usercode', $("#usercode").val(), { expires: 30 });
@@ -52,9 +54,17 @@
 $(function(){
     $("#usercode").focus();
     $("#usercode").val($.cookie('usercode'));
+    layui.use('layer', function(){
+        var layer = layui.layer;
+        var msg = document.all.msg.value;
+        if(msg){
+            layer.msg(msg);
+        }
+    });
+
 });
 
 </script>
 </body>
-
+<input type="hidden" id="msg" th:value="${msg}">
 </html>

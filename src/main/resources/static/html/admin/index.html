@@ -36,12 +36,20 @@
                 <a th:href="${p.url}" th:text="${p.name}"></a>
             </li>
         </ul>
-        <ul class="layui-nav layui-layout-right">
-            <li class="layui-nav-item">
+        <ul class="layui-nav layui-layout-right " >
+            <li class="layui-nav-item" lay-unselect="">
+                <a  href="#"  onclick="parent.active.tabAdd('本月排名','cmswork/userRanking.html?datestart='+getMonthStartDate()+'&dateend='+getMonthEndDate(),'userRanking');">本月排名<span class="layui-badge" id="userRankingSpan">1</span></a>
+            </li>
+            <li class="layui-nav-item" lay-unselect="">
+                <a href="#"  onclick="parent.active.tabAdd('总排名','cmswork/userRanking.html','userRanking');">总排名<span class="layui-badge" id="userRankingTotalSpan">1</span></a>
+            </li>
+            <li class="layui-nav-item" lay-unselect="">
                 <a href="javascript:;">
                     【<span th:text="${admin.orgname}"></span>】
                     <span th:text="${admin.username}"></span>
                 </a>
+
+
                 <dl class="layui-nav-child">
                     <dd><a href="javascript:openPwd();">修改密码</a></dd>
                 </dl>
@@ -94,6 +102,7 @@
 </div>
 <script src="../../lib/jquery/jquery.js" ></script>
 <script src="../../lib/layui/layui.js" charset="utf-8"></script>
+<script src="../../lib/comm.js?v=1.0.0"></script>
 <script>
     var onlines;
     var $;
@@ -101,6 +110,13 @@
     var element;
     layui.use('layer', function(){
         layer = layui.layer;
+
+
+
+        userRanking({},"userRankingTotalSpan");//获取总排名
+
+        userRanking({datestart:getMonthStartDate(),dateend:getMonthEndDate()},"userRankingSpan");//获取排名
+
     });
 
     layui.use('element', function(){
@@ -285,9 +301,43 @@
     });
 
 
+    /**
+     * 获取排名
+     * */
+    function userRanking(params,id){
+        $.ajax({
+            url: "cmswork/userRanking.do",
+            type: "POST",
+            data:params,
+            dataType:'json',
+            success: function(data){
+                console.log(data);
+                var data = data.data;
+                for(i in data){
+                    if(data[i].TOUSER==$("#adminUserCode").val()){
+                        var n =data[i].ROWNUM;
+                        $("#"+id).html(n);
+                        if(params.datestart && params.dateend){
+                            if(n<=10){
+                                layer.msg("您很努力，本月排名第"+n+"，实力接单王！");
+                            }else if(n>10 && n<=20){
+                                layer.msg("您本月排名第"+n+"，还差一点就可以挑战接单王了，继续加油！");
+                            }else if(n>20 && n<=30){
+                                layer.msg("您本月排名第"+n+"，还得冲一冲，加油哦！");
+                            }else{
+                                layer.msg("您本月排名第"+n+"，拖后腿了，要努力呀！");
+                            }
+
+                        }
+                        break;
+                    }
+                }
+            }
+        });
+    }
 
 </script>
 </body>
-
+<input type="hidden" id="adminUserCode" th:value="${admin.usercode}">
 
 </html>

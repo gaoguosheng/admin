@@ -30,6 +30,7 @@ public class LoginController extends  BaseController{
 
     @RequestMapping("/checkLogin.do")
     public String checkLogin(ModelMap map, HttpSession session, UserModel userModel, HttpServletResponse response){
+        map.addAttribute("title",title);
         UserModel user = service.getUser(userModel);
         if(user==null){
             map.put("msg","用户不存在或者密码不正确");
