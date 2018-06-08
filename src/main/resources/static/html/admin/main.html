@@ -23,7 +23,7 @@
                 <div class="layui-card-header"><b>任务总览</b><span id="dateRange"></span>
                     <button class="layui-btn layui-btn-xs layui-btn-normal" onclick="loadFreeTable({datestart:getLastWeekStartDate(),dateend:getLastWeekEndDate()});">上周</button>
                     <button class="layui-btn layui-btn-xs layui-btn-normal" onclick="loadFreeTable({datestart:getWeekStartDate(),dateend:getWeekEndDate()});">本周</button>
-                    <button class="layui-btn layui-btn-xs layui-btn-normal" onclick="parent.active.tabAdd('排名','cmswork/userRanking.html?datestart='+params.datestart+'&dateend='+params.dateend,'userRanking');">排名<span class="layui-badge layui-bg-orange" id="userRankingSpan">1</span></button>
+                    <button class="layui-btn layui-btn-xs layui-btn-normal" onclick="parent.active.tabAdd('本月排名','cmswork/userRanking.html?datestart='+getMonthStartDate()+'&dateend='+getMonthEndDate(),'userRanking');">本月排名<span class="layui-badge layui-bg-orange" id="userRankingSpan">1</span></button>
                     <button class="layui-btn layui-btn-xs layui-btn-normal" onclick="parent.active.tabAdd('总排名','cmswork/userRanking.html','userRanking');">总排名<span class="layui-badge layui-bg-orange" id="userRankingTotalSpan">1</span></button>
                 </div>
                 <div class="layui-card-body">
@@ -158,7 +158,7 @@
 
         loadProblemCauseTotal(params);//当周问题原因分析
 
-        userRanking(params,"userRankingSpan");//获取排名
+
 
 
     }
@@ -504,6 +504,8 @@
     loadWeekProblemTotal();//加载问题周统计
 
     userRanking({},"userRankingTotalSpan");//获取总排名
+
+    userRanking({datestart:getMonthStartDate(),dateend:getMonthEndDate()},"userRankingSpan");//获取排名
 
 
 </script>
