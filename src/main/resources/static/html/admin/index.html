@@ -58,10 +58,10 @@
         </ul>
     </div>
 
-    <div class="layui-side layui-bg-black">
+    <div class="layui-side layui-bg-black" style="width: 100px;">
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-            <ul class="layui-nav layui-nav-tree dynamic-navigation"  lay-filter="test" style="position: fixed; " id="side-nav">
+            <ul class="layui-nav layui-nav-tree dynamic-navigation"  lay-filter="test" style="position: fixed; width: 100px;" id="side-nav">
 
                 <li class="layui-nav-item" th:each="p,i : ${permissons}" th:if="(${p.pid} == ${subsysid})">
                     <a  th:text="${p.name}"></a>
@@ -73,7 +73,7 @@
         </div>
     </div>
 
-    <div class="layui-body" >
+    <div class="layui-body" style="left: 100px;">
         <!-- 内容主体区域 -->
         <div class="layui-tab" lay-filter="demo" lay-allowclose="true">
             <ul class="layui-tab-title">
@@ -244,8 +244,8 @@
             i++;
         }else{
             $(".layui-side").animate({width:'toggle'});
-            $(".layui-body").animate({left:'200px'});
-            $(".layui-footer").animate({left:'200px'});
+            $(".layui-body").animate({left:'100px'});
+            $(".layui-footer").animate({left:'100px'});
             i--;
         }
     });
