@@ -3,11 +3,11 @@
 <mapper namespace="com.ggs.admin.module.sys.dao.PermissionMapper" >
 
     <select id="query" resultType="com.ggs.admin.module.sys.model.PermissionModel" parameterType="com.ggs.admin.module.sys.model.PermissionModel">
-        select * from SYS_PERMISSION order by id
+        select * from SYS_PERMISSION order by orderno
     </select>
 
     <update id="update"  parameterType="com.ggs.admin.module.sys.model.PermissionModel">
-          update  SYS_PERMISSION  set name=#{name},descritpion=#{descritpion},url=#{url},pid=#{pid} where id=#{id}
+          update  SYS_PERMISSION  set name=#{name},descritpion=#{descritpion},url=#{url},pid=#{pid},orderno=#{orderno} where id=#{id}
     </update>
 
     <update id="add"  parameterType="com.ggs.admin.module.sys.model.PermissionModel">

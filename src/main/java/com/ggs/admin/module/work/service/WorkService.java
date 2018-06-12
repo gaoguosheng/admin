@@ -3,8 +3,10 @@ package com.ggs.admin.module.work.service;
 import com.ggs.admin.module.sys.model.PageModel;
 import com.ggs.admin.module.work.dao.CmsWorkMapper;
 import com.ggs.admin.module.work.dao.ProblemMapper;
+import com.ggs.admin.module.work.dao.WorkGoalMapper;
 import com.ggs.admin.module.work.model.CmsWorkModel;
 import com.ggs.admin.module.work.model.ProblemModel;
+import com.ggs.admin.module.work.model.WorkGoalModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +20,9 @@ public class WorkService{
 
     @Autowired
     private ProblemMapper problemMapper;//问题dao
+
+    @Autowired
+    private WorkGoalMapper workGoalMapper;//工作目标dao
 
     /**
      * 查询周报
@@ -210,5 +215,56 @@ public class WorkService{
         PageModel pageModel =new PageModel(code,msg,counter,list);
         return pageModel;
 
+    }
+
+
+    /**
+     * 查询目标
+     * */
+    public PageModel queryWorkGoal(WorkGoalModel model){
+        String code="0";
+        String msg="";
+        List list = null;
+        Integer counter=0;
+        try {
+            list = workGoalMapper.query(model);
+            counter= workGoalMapper.queryCount(model);
+        }catch (Exception e){
+            e.printStackTrace();
+            code="1";
+            msg="查询用户失败";
+        }
+        PageModel pageModel =new PageModel(code,msg,counter,list);
+        return pageModel;
+    }
+
+    /**
+     * 添加目标
+     * */
+    public void addWorkGoal(WorkGoalModel model){
+        workGoalMapper.add(model);
+    }
+
+    /**
+     * 更新目标
+     * */
+    public void updateWorkGoal(WorkGoalModel model){
+        workGoalMapper.update(model);
+    }
+
+
+    /**
+     * 删除目标
+     * */
+    public void delWorkGoal(WorkGoalModel model){
+        workGoalMapper.del(model);
+    }
+
+
+    /**
+     * 查询当月目标
+     * */
+    public List<Map<String,Object>> queryMonthGoal(WorkGoalModel model){
+        return workGoalMapper.queryMonthGoal(model);
     }
 }

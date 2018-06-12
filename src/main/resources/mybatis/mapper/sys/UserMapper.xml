@@ -28,7 +28,7 @@
                select t2.permission_id from SYS_PERMISSION_ROLE t2 where t2.role_id in (
                       select t3.ROLE_ID from SYS_ROLE_USER t3 where t3.USERCODE=#{usercode}
                )
-     ) order by t.id asc
+     ) order by orderno asc
     </select>
 
 

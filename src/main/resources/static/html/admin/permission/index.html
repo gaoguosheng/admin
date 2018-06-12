@@ -48,6 +48,14 @@
                     </div>
                 </div>
             </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">序列</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="orderno"  id="orderno" autocomplete="off" class="layui-input" required >
+                    </div>
+                </div>
+            </div>
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label">描述</label>
                 <div class="layui-input-block">
@@ -157,6 +165,7 @@
         $("#descritpion").val(treeNode.descritpion);
         $("#id").val(treeNode.id);
         $("#pid").val(treeNode.pid);
+        $("#orderno").val(treeNode.orderno);
     };
 
     var newCount = 1;

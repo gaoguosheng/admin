@@ -16,6 +16,16 @@ public class PermissionModel {
 
     private boolean checked=false;
 
+    private int orderno;
+
+    public int getOrderno() {
+        return orderno;
+    }
+
+    public void setOrderno(int orderno) {
+        this.orderno = orderno;
+    }
+
     public boolean isChecked() {
         return checked;
     }

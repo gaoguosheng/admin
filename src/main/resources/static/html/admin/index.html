@@ -41,7 +41,7 @@
                 <a  href="#"  onclick="parent.active.tabAdd('本月排名','cmswork/userRanking.html?datestart='+getMonthStartDate()+'&dateend='+getMonthEndDate(),'userRanking');">本月排名<span class="layui-badge" id="userRankingSpan">1</span></a>
             </li>
             <li class="layui-nav-item" lay-unselect="">
-                <a href="#"  onclick="parent.active.tabAdd('总排名','cmswork/userRanking.html','userRanking');">总排名<span class="layui-badge" id="userRankingTotalSpan">1</span></a>
+                <a href="#"  onclick="parent.active.tabAdd('总排名','cmswork/userRanking.html','userRankingTotal');">总排名<span class="layui-badge" id="userRankingTotalSpan">1</span></a>
             </li>
             <li class="layui-nav-item" lay-unselect="">
                 <a href="javascript:;">
@@ -54,7 +54,7 @@
                     <dd><a href="javascript:openPwd();">修改密码</a></dd>
                 </dl>
             </li>
-            <li class="layui-nav-item"><a href="javascript:exit();">退出</a></li>
+            <li class="layui-nav-item" lay-unselect=""><a href="javascript:exit();">退出</a></li>
         </ul>
     </div>
 
@@ -184,7 +184,7 @@
     }
 
     function FrameWH() {
-        var h = $(window).height() -200;
+        var h = $(window).height() -190;
         $("iframe").css("height",h+"px");
     }
 
@@ -314,18 +314,19 @@
                 console.log(data);
                 var data = data.data;
                 for(i in data){
-                    if(data[i].TOUSER==$("#adminUserCode").val()){
+                    if(data[i].TOUSER==$("#adminUsercode").val()){
                         var n =data[i].ROWNUM;
                         $("#"+id).html(n);
+                        var username=$("#adminUsername").val();
                         if(params.datestart && params.dateend){
                             if(n<=10){
-                                layer.msg("您很努力，本月排名第"+n+"，实力接单王！");
+                                layer.msg(username+"，您真棒，本月排名第"+n+"，实力接单王！");
                             }else if(n>10 && n<=20){
-                                layer.msg("您本月排名第"+n+"，还差一点就可以挑战接单王了，继续加油！");
+                                layer.msg(username+"，您很努力，本月排名第"+n+"，继续加油啊！");
                             }else if(n>20 && n<=30){
-                                layer.msg("您本月排名第"+n+"，还得冲一冲，加油哦！");
+                                layer.msg(username+"，您落后了，本月排名第"+n+"，还得冲一冲哦！");
                             }else{
-                                layer.msg("您本月排名第"+n+"，拖后腿了，要努力呀！");
+                                layer.msg(username+"，您拖后腿了，本月排名第"+n+"，要努力呀！");
                             }
 
                         }
@@ -338,6 +339,7 @@
 
 </script>
 </body>
-<input type="hidden" id="adminUserCode" th:value="${admin.usercode}">
+<input type="hidden" id="adminUsercode" th:value="${admin.usercode}">
+<input type="hidden" id="adminUsername" th:value="${admin.username}">
 
 </html>
