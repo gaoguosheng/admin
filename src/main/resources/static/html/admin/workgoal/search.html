@@ -49,6 +49,9 @@
             </script>
 
 
+            <script type="text/html" id="barDemo">
+                <a class="layui-btn layui-btn-xs" lay-event="detail">跟进</a>
+            </script>
         </div>
 
 
@@ -77,6 +80,7 @@
                 ,{field:'ISFINISH', title:'是否竣工', templet:'#checkIsFinish',unresize:true,width:100}
                 ,{field:'FINISHDATE', title:'竣工日期', width:120}
                 ,{field:'REMARK', title:'完成情况', width:350}
+                ,{fixed: 'right', width:80, align:'center', toolbar: '#barDemo'}
             ]]
             ,page: true
             ,limit:20
@@ -231,6 +235,44 @@
 
                 loadTable();
                 return false;
+            });
+
+            //监听工具条
+            table.on('tool(cmsWorkTable)', function(obj){
+                var data = obj.data;
+                if(obj.event === 'detail'){
+                    //layer.msg('ID：'+ data.ID + ' 的查看操作');
+                    $.ajax({
+                        url: "queryLog.do",
+                        type: "POST",
+                        data:{id:data.ID},
+                        dataType:'json',
+                        success: function(data){
+                            console.log(data);
+                            var html="<table class=\"layui-table\">";
+                            html+="<thead><tr><th>时间</th><th>跟进人</th><th>内容</th></tr></thead>";
+                            for(var i in data){
+                                html+="<tr>";
+                                html+="<td>"+data[i].CREATEDATE +" "+data[i].CREATETIME+"</td>";
+                                html+="<td>"+data[i].CREATEUSER+"</td>";
+                                html+="<td>"+data[i].REMARK+"</td>";
+                                html+="</tr>";
+                            }
+                            html+="</table>";
+
+                            layer.open({
+                                type: 1
+                                ,title:'跟进信息'
+                                ,content: html
+                                ,area:['100%','100%']
+                                ,btn: ['关闭']
+                                ,yes: function(index, layero){
+                                    layer.close(index);
+                                }
+                            });
+                        }
+                    });
+                }
             });
 
         });

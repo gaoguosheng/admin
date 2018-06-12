@@ -17,4 +17,6 @@ public interface WorkGoalMapper {
     public void update(WorkGoalModel model);
     public void del(WorkGoalModel model);
     public List<Map<String,Object>> queryMonthGoal(WorkGoalModel model);
+    public void log(WorkGoalModel model);
+    public List<Map<String,Object>> queryLog(WorkGoalModel model);
 }

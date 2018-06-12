@@ -250,6 +250,10 @@ public class WorkService{
      * */
     public void updateWorkGoal(WorkGoalModel model){
         workGoalMapper.update(model);
+        if(model.getRemark()!=null){
+            model.setCreateuser(model.getUpdateuser());
+            workGoalMapper.log(model);
+        }
     }
 
 
@@ -266,5 +270,12 @@ public class WorkService{
      * */
     public List<Map<String,Object>> queryMonthGoal(WorkGoalModel model){
         return workGoalMapper.queryMonthGoal(model);
+    }
+
+    /**
+     * 查询日志
+     * */
+    public List<Map<String,Object>> queryLog(WorkGoalModel model){
+        return workGoalMapper.queryLog(model);
     }
 }

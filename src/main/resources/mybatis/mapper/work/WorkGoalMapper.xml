@@ -116,4 +116,13 @@
         order by t.PRIORITY )t where rownum<![CDATA[<=]]>3
     </select>
 
+    <update id="log" parameterType="com.ggs.admin.module.work.model.WorkGoalModel">
+        insert into  cms_log (objid,objtype,createuser,remark) values(#{id},'workgoal',#{createuser},#{remark})
+    </update>
+
+    <select id="queryLog" parameterType="com.ggs.admin.module.work.model.WorkGoalModel" resultType="HashMap">
+        select * from (
+        select * from cms_log t where t.objid=#{id} and t.objtype='workgoal' order by t.SYSOPERTIME desc)where rownum<![CDATA[<=]]>10
+    </select>
+
 </mapper>

@@ -90,4 +90,12 @@ public class WorkGoalController extends BaseController {
         return  list;
     }
 
+    @RequestMapping("queryLog.do")
+    @ResponseBody
+    public List queryLog(WorkGoalModel model, @SessionAttribute UserModel  admin){
+        model.setTouser(admin.getUsercode());
+        model.setOrgid(admin.getOrgid());
+        List list= service.queryLog(model);
+        return  list;
+    }
 }
