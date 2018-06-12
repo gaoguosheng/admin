@@ -1,7 +1,6 @@
 package com.ggs.admin.module.work.dao;
 
 import com.ggs.admin.module.work.model.CmsWorkModel;
-import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -23,4 +22,6 @@ public interface CmsWorkMapper {
     public List<Map<String,Object>>getOrgTotal(CmsWorkModel cmsWorkModel);
     public List<Map<String,Object>>getUserTotal(CmsWorkModel cmsWorkModel);
     public List<Map<String,Object>>userRanking(CmsWorkModel cmsWorkModel);
+    public void log(CmsWorkModel model);
+    public List<Map<String,Object>> queryLog(CmsWorkModel model);
 }

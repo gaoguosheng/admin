@@ -4,6 +4,7 @@ import com.ggs.admin.module.sys.model.PageModel;
 import com.ggs.admin.module.sys.model.UserModel;
 import com.ggs.admin.module.sys.web.BaseController;
 import com.ggs.admin.module.work.model.CmsWorkModel;
+import com.ggs.admin.module.work.model.WorkGoalModel;
 import com.ggs.admin.module.work.service.WorkService;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -166,4 +167,12 @@ public class CmsWorkController  extends BaseController {
         return  pageModel;
     }
 
+    @RequestMapping("queryLog.do")
+    @ResponseBody
+    public List queryLog(CmsWorkModel model, @SessionAttribute UserModel  admin){
+        model.setTouser(admin.getUsercode());
+        model.setOrgid(admin.getOrgid());
+        List list= service.queryWorkLog(model);
+        return  list;
+    }
 }

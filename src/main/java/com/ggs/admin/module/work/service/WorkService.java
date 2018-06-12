@@ -56,6 +56,10 @@ public class WorkService{
      * */
     public void updateCmsWork(CmsWorkModel cmsWorkModel){
         cmsWorkMapper.update(cmsWorkModel);
+        if(cmsWorkModel.getRemark()!=null){
+            cmsWorkModel.setCreateuser(cmsWorkModel.getUpdateuser());
+            cmsWorkMapper.log(cmsWorkModel);
+        }
     }
 
 
@@ -275,7 +279,14 @@ public class WorkService{
     /**
      * 查询日志
      * */
-    public List<Map<String,Object>> queryLog(WorkGoalModel model){
+    public List<Map<String,Object>> queryGoalLog(WorkGoalModel model){
         return workGoalMapper.queryLog(model);
+    }
+
+    /**
+     * 查询日志
+     * */
+    public List<Map<String,Object>> queryWorkLog(CmsWorkModel model){
+        return cmsWorkMapper.queryLog(model);
     }
 }

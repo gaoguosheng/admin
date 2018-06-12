@@ -21,12 +21,12 @@
         <div style="padding: 15px;">
             <form class="layui-form" action="">
             <div class="layui-form-item">
-                <div class="layui-inline">
+                <!--<div class="layui-inline">
                     <label class="layui-form-label">组织</label>
                     <div class="layui-input-inline">
                         <input type="text" name="orgname"  id="orgname" autocomplete="off" class="layui-input">
                     </div>
-                </div>
+                </div>-->
                 <div class="layui-inline">
                     <label class="layui-form-label">负责人</label>
                     <div class="layui-input-inline">
@@ -97,6 +97,11 @@
                 <input type="checkbox" name="isfinish" value="{{d.ID}}" title="竣工"  {{ d.ISFINISH == 1 ? 'checked' : '' }}  lay-filter="checkITem" />
             </script>
 
+            <script type="text/html" id="barDemo">
+                <a class="layui-btn layui-btn-xs" lay-event="follow">跟进</a>
+                <a class="layui-btn layui-btn-xs" lay-event="detail">详细</a>
+            </script>
+
         </div>
 
 
@@ -136,7 +141,7 @@
                      ,{field:'ORGNAME', title:'组织',width:80}
                      ,{field:'TOUSERNAME', title:'负责人',width:80}
                      ,{field:'TASKNO', title:'任务单号',width:250}
-                     ,{field:'TASKNAME', title: '任务名称', width:250,event: 'showDetail', style:'cursor: pointer;color:blue'}
+                     ,{field:'TASKNAME', title: '任务名称', width:250}
                      ,{field:'MONDAY', title: '周一',templet: '#checkDay1', unresize: true,width:60}
                      ,{field:'TUESDAY', title: '周二',templet: '#checkDay2', unresize: true,width:60}
                      ,{field:'WEDNESDAY', title: '周三',templet: '#checkDay3', unresize: true,width:60}
@@ -145,10 +150,11 @@
                      ,{field:'ISFINISH', title:'是否竣工', templet:'#checkIsFinish',unresize:true,width:100}
                      ,{field:'FINISHDATE', title:'竣工日期', width:110}
                      ,{field:'REMARK', title:'完成情况', width:250}
+                        ,{fixed: 'right', width:150, align:'center', toolbar: '#barDemo'}
                      ]]
                     ,page: true
                     ,limit:30
-                    ,height: 'full-160'
+                    ,height: 'full-120'
                 });
             }
 
@@ -166,10 +172,44 @@
                 return false;
             });
 
-            //监听单元格事件
+
+
+            //监听工具条
             table.on('tool(cmsWorkTable)', function(obj){
                 var data = obj.data;
-                if(obj.event === 'showDetail'){
+                if(obj.event === 'follow'){
+                    //layer.msg('ID：'+ data.ID + ' 的查看操作');
+                    $.ajax({
+                        url: "queryLog.do",
+                        type: "POST",
+                        data:{id:data.ID},
+                        dataType:'json',
+                        success: function(data){
+                            console.log(data);
+                            var html="<table class=\"layui-table\">";
+                            html+="<thead><tr><th>时间</th><th>跟进人</th><th>内容</th></tr></thead>";
+                            for(var i in data){
+                                html+="<tr>";
+                                html+="<td>"+data[i].CREATEDATE +" "+data[i].CREATETIME+"</td>";
+                                html+="<td>"+data[i].CREATEUSER+"</td>";
+                                html+="<td>"+data[i].REMARK+"</td>";
+                                html+="</tr>";
+                            }
+                            html+="</table>";
+
+                            layer.open({
+                                type: 1
+                                ,title:'跟进信息'
+                                ,content: html
+                                ,area:['100%','100%']
+                                ,btn: ['关闭']
+                                ,yes: function(index, layero){
+                                    layer.close(index);
+                                }
+                            });
+                        }
+                    });
+                }else if(obj.event === 'detail'){
                     $("#d_createdate").val(data.CREATEDATE);
                     $("#d_tousername").val(data.TOUSERNAME);
                     $("#d_taskno").val(data.TASKNO);

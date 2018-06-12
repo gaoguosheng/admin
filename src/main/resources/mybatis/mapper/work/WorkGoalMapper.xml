@@ -122,7 +122,7 @@
 
     <select id="queryLog" parameterType="com.ggs.admin.module.work.model.WorkGoalModel" resultType="HashMap">
         select * from (
-        select * from cms_log t where t.objid=#{id} and t.objtype='workgoal' order by t.SYSOPERTIME desc)where rownum<![CDATA[<=]]>10
+        select * from cms_log t where t.objid=#{id} and t.objtype='workgoal' order by t.SYSOPERTIME desc)where rownum<![CDATA[<=]]>20
     </select>
 
 </mapper>

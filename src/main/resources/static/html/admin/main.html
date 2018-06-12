@@ -18,11 +18,19 @@
 
 <div style="padding: 20px; background-color: #F2F2F2;">
     <div class="layui-row layui-col-space15">
-        <div class="layui-col-md12">
+        <div class="layui-col-md8">
             <div class="layui-card">
                 <div class="layui-card-header"><b>本月目标TOP3</b>&nbsp;&nbsp;<button class="layui-btn layui-btn-xs layui-btn-normal" onclick="parent.active.tabAdd('目标看板','workgoal/search.do','workGoal');">更多</button></div>
-                <div class="layui-card-body" id="workGoalDiv">
+                <div class="layui-card-body" id="workGoalDiv" style="height: 200px;">
 
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md4">
+            <div class="layui-card">
+                <div class="layui-card-header"><b>任务趋势</b></div>
+                <div class="layui-card-body">
+                    <div id="weeksTotalContainer" style="height: 200px;"></div>
                 </div>
             </div>
         </div>
@@ -66,10 +74,10 @@
         </div>
         <div class="layui-col-md4">
             <div class="layui-card">
-                <div class="layui-card-header"><b>趋势分析</b></div>
+                <div class="layui-card-header"><b>问题分析</b></div>
                 <div class="layui-card-body">
-                    <div id="weeksTotalContainer" style="height: 200px;"></div>
                     <div id="weeksProblemTotalContainer" style="height: 200px;"></div>
+                    <div id="problemCauseTotalContainer" style="height: 200px;"></div>
                 </div>
             </div>
         </div>
@@ -83,14 +91,7 @@
             </div>
         </div>
 
-        <div class="layui-col-md4">
-            <div class="layui-card">
-                <div class="layui-card-header"><b>问题分析</b></div>
-                <div class="layui-card-body">
-                    <div id="problemCauseTotalContainer" style="height: 200px;"></div>
-                </div>
-            </div>
-        </div>
+
 
     </div>
 </div>

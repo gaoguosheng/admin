@@ -50,7 +50,7 @@
 
 
             <script type="text/html" id="barDemo">
-                <a class="layui-btn layui-btn-xs" lay-event="detail">跟进</a>
+                <a class="layui-btn layui-btn-xs" lay-event="follow">跟进</a>
             </script>
         </div>
 
@@ -84,7 +84,7 @@
             ]]
             ,page: true
             ,limit:20
-            ,height: 'full-120'
+            ,height: 'full-80'
         });
     }
 
@@ -240,7 +240,7 @@
             //监听工具条
             table.on('tool(cmsWorkTable)', function(obj){
                 var data = obj.data;
-                if(obj.event === 'detail'){
+                if(obj.event === 'follow'){
                     //layer.msg('ID：'+ data.ID + ' 的查看操作');
                     $.ajax({
                         url: "queryLog.do",
