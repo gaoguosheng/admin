@@ -137,7 +137,7 @@
             ,where:params
             ,cols: [[
                 {type:'numbers'}
-                ,{field:'ORGNAME', title:'组织',width:100}
+                ,{field:'ORGNAME', title:'组织',width:80}
                 ,{field:'USERNAME', title:'姓名',width:80}
                 ,{field:'MONDAY', title: '周一',templet: '#checkDay1', unresize: true,width:60}
                 ,{field:'TUESDAY', title: '周二',templet: '#checkDay2', unresize: true,width:60}
@@ -152,8 +152,8 @@
                     html+="<div class=\"layui-progress-bar layui-bg-red\" lay-percent=\""+str+"%\" ></div>";
                     return html;
                 }}
-                ,{field:'TOTALCOUNT', title:'任务',width:60}
-                ,{field:'TOTALFINISHCOUNT', title:'竣工',width:60}
+                ,{field:'TOTALCOUNT', title:'任务量',width:80}
+                ,{field:'TOTALFINISHCOUNT', title:'竣工量',width:80}
             ]]
             ,page: false
             ,height: '380px'
@@ -496,13 +496,14 @@
             success: function(data){
                 console.log(data);
                 var html="<table class=\"layui-table\" lay-size=\"sm\" lay-even=\"\" lay-skin=\"line\">";
-                html+="<thead><tr><th>目标</th><th>优先级</th><th>计划日期</th><th>完成进度%</th></tr></thead>";
+                html+="<thead><tr><th>目标</th><th>优先级</th><th>计划日期</th><th>完成进度%</th><th>最新进展</th></tr></thead>";
                 for(var i in data){
                     html+="<tr>";
-                    html+="<td>"+data[i].GOALNAME+"</td>";
-                    html+="<td>"+data[i].PRIORITY+"</td>";
-                    html+="<td>"+data[i].PLANDATE+"</td>";
-                    html+="<td>"+data[i].SCHEDULE+"</td>";
+                    html+="<td class='layui-table-cell'>"+data[i].GOALNAME+"</td>";
+                    html+="<td class='layui-table-cell'>"+data[i].PRIORITY+"</td>";
+                    html+="<td class='layui-table-cell'>"+data[i].PLANDATE+"</td>";
+                    html+="<td class='layui-table-cell'>"+data[i].SCHEDULE+"</td>";
+                    html+="<td class='layui-table-cell'>"+data[i].REMARK+"</td>";
                     html+="</tr>";
                 }
                 html+="</table>";
