@@ -59,4 +59,11 @@ public class OrgController extends  BaseController{
         return  orgModel;
     }
 
+    @RequestMapping("queryAll.do")
+    @ResponseBody
+    public List queryAll(OrgModel orgModel){
+        List list = service.queryOrg(orgModel);
+        return  list;
+    }
+
 }

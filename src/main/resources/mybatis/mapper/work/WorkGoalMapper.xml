@@ -113,7 +113,7 @@
         <if test="orgid!=null and orgid!=''">
             and t.touser in (select usercode from sys_user where orgid  in(select id from ggs.sys_org t  start with t.id=#{orgid} connect by prior t.id=t.pid) )
         </if>
-        order by t.PRIORITY )t where rownum<![CDATA[<=]]>3
+        order by t.PRIORITY )t where rownum<![CDATA[<=]]>5
     </select>
 
     <update id="log" parameterType="com.ggs.admin.module.work.model.WorkGoalModel">

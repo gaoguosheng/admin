@@ -272,6 +272,13 @@
         group by t.touser)t3
         on t3.touser=t.usercode
         left join ggs.sys_org t4 on t4.id=t.orgid
+        where 1=1
+        <if test="orgids!=null">
+            and t.orgid in
+            <foreach item="item" index="index" collection="orgids" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
         order by counter desc)t
 
     </select>

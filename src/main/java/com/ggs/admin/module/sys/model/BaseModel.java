@@ -1,5 +1,7 @@
 package com.ggs.admin.module.sys.model;
 
+import java.util.List;
+
 public class BaseModel {
 
     protected int page;
@@ -19,6 +21,15 @@ public class BaseModel {
 
     protected int orgid;
     protected String orgname;
+    protected List<String> orgids;
+
+    public List<String> getOrgids() {
+        return orgids;
+    }
+
+    public void setOrgids(List<String> orgids) {
+        this.orgids = orgids;
+    }
 
     public String getOrgname() {
         return orgname;

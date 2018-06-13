@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -163,6 +164,14 @@ public class CmsWorkController  extends BaseController {
     @RequestMapping("userRanking.do")
     @ResponseBody
     public PageModel userRanking(CmsWorkModel cmsWorkModel,@SessionAttribute UserModel  admin){
+        List<String>orgids = new ArrayList<String>();
+        String ids = cmsWorkModel.getIds();
+        if(ids!=null && ids.trim().length()>0){
+            for(String id:ids.split(",")){
+                orgids.add(id);
+            }
+            cmsWorkModel.setOrgids(orgids);
+        }
         PageModel pageModel = service.userRanking(cmsWorkModel);
         return  pageModel;
     }

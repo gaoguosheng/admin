@@ -20,7 +20,7 @@
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md8">
             <div class="layui-card">
-                <div class="layui-card-header"><b>本月目标TOP3</b>&nbsp;&nbsp;<button class="layui-btn layui-btn-xs layui-btn-normal" onclick="parent.active.tabAdd('目标看板','workgoal/search.do','workGoal');">更多</button></div>
+                <div class="layui-card-header"><b>本月目标TOP5</b>&nbsp;&nbsp;<button class="layui-btn layui-btn-xs layui-btn-normal" onclick="parent.active.tabAdd('目标看板','workgoal/search.do','workGoal');">更多</button></div>
                 <div class="layui-card-body" id="workGoalDiv" style="height: 200px;">
 
                 </div>
@@ -41,27 +41,22 @@
                     <button class="layui-btn layui-btn-xs layui-btn-normal" onclick="loadFreeTable({datestart:getWeekStartDate(),dateend:getWeekEndDate()});">本周</button>
                 </div>
                 <div class="layui-card-body">
-                    <table class="layui-hide" id="cmsWorkTable" lay-filter="cmsWorkTable" ></table>
+                    <table class="layui-hide" id="cmsWorkTable" lay-filter="cmsWorkTable"></table>
 
                     <script type="text/html" id="checkDay1">
-                        <!-- 这里的 checked 的状态只是演示 -->
-                        <input type="checkbox" name="monday" value="{{d.ID}}" title=""  {{ d.MONDAY > 0 ? 'checked' : '' }}  lay-filter="checkITem" />
+                        {{ d.MONDAY > 0 ? '<img src="../../lib/layui/images/face/0.gif" title="忙"/>' : '<img src="../../lib/layui/images/face/21.gif" title="空闲"/>' }}
                     </script>
                     <script type="text/html" id="checkDay2">
-                        <!-- 这里的 checked 的状态只是演示 -->
-                        <input type="checkbox" name="tuesday" value="{{d.ID}}" title=""  {{ d.TUESDAY >0 ? 'checked' : '' }}  lay-filter="checkITem" />
+                        {{ d.TUESDAY > 0 ? '<img src="../../lib/layui/images/face/0.gif" title="忙"/>' : '<img src="../../lib/layui/images/face/21.gif" title="空闲"/>' }}
                     </script>
                     <script type="text/html" id="checkDay3">
-                        <!-- 这里的 checked 的状态只是演示 -->
-                        <input type="checkbox" name="wednesday" value="{{d.ID}}" title=""  {{ d.WEDNESDAY > 0 ? 'checked' : '' }}  lay-filter="checkITem" />
+                        {{ d.WEDNESDAY > 0 ? '<img src="../../lib/layui/images/face/0.gif" title="忙"/>' : '<img src="../../lib/layui/images/face/21.gif" title="空闲"/>' }}
                     </script>
                     <script type="text/html" id="checkDay4">
-                        <!-- 这里的 checked 的状态只是演示 -->
-                        <input type="checkbox" name="thursday" value="{{d.ID}}" title=""  {{ d.THURSDAY > 0 ? 'checked' : '' }}  lay-filter="checkITem" />
+                        {{ d.THURSDAY > 0 ? '<img src="../../lib/layui/images/face/0.gif" title="忙"/>' : '<img src="../../lib/layui/images/face/21.gif" title="空闲"/>' }}
                     </script>
                     <script type="text/html" id="checkDay5">
-                        <!-- 这里的 checked 的状态只是演示 -->
-                        <input type="checkbox" name="friday" value="{{d.ID}}" title=""  {{ d.FRIDAY > 0 ? 'checked' : '' }}  lay-filter="checkITem" />
+                        {{ d.FRIDAY > 0 ? '<img src="../../lib/layui/images/face/0.gif" title="忙"/>' : '<img src="../../lib/layui/images/face/21.gif" title="空闲"/>' }}
                     </script>
 
 
@@ -134,6 +129,9 @@
         $("#dateRange").html("（"+params.datestart+"~"+params.dateend+"）");
         table.render({
             id:'cmswork'
+            ,skin: 'line'
+            ,even: true
+            ,size: 'sm'
             ,elem: '#cmsWorkTable'
             ,url:'cmswork/freeStatus.do'
             ,where:params
@@ -146,7 +144,7 @@
                 ,{field:'WEDNESDAY', title: '周三',templet: '#checkDay3', unresize: true,width:60}
                 ,{field:'THURSDAY', title: '周四',templet: '#checkDay4', unresize: true,width:60}
                 ,{field:'FRIDAY', title: '周五',templet: '#checkDay5', unresize: true,width:60}
-                ,{field:'PERCENT', title:'本周竣工进度',width:150,templet: function(d){
+                ,{field:'PERCENT', title:'本周竣工进度',width:100,templet: function(d){
                     var str = 0;
                     if(d.PERCENT)str=d.PERCENT;
                     var html = "";
@@ -154,8 +152,8 @@
                     html+="<div class=\"layui-progress-bar layui-bg-red\" lay-percent=\""+str+"%\" ></div>";
                     return html;
                 }}
-                ,{field:'TOTALCOUNT', title:'本周任务量',width:100}
-                ,{field:'TOTALFINISHCOUNT', title:'竣工总量',width:100}
+                ,{field:'TOTALCOUNT', title:'任务',width:60}
+                ,{field:'TOTALFINISHCOUNT', title:'竣工',width:60}
             ]]
             ,page: false
             ,height: '380px'
@@ -192,7 +190,7 @@
                     ydata1[i]=data[i].COUNTER;
                     ydata2[i]=data[i].FINISH_COUNTER;
                 }
-                load_line_charts("任务总览","weeksTotalContainer",xdata,ydata1,ydata2);
+                load_line_charts("","weeksTotalContainer",xdata,ydata1,ydata2);
 
             }
         });
@@ -413,7 +411,7 @@
                     ydata1[i]=data[i].COUNTER;
                     ydata2[i]=data[i].FINISH_COUNTER;
                 }
-                load_line_charts("问题总览","weeksProblemTotalContainer",xdata,ydata1,ydata2);
+                load_line_charts("","weeksProblemTotalContainer",xdata,ydata1,ydata2);
             }
         });
     }
@@ -497,7 +495,7 @@
             dataType:'json',
             success: function(data){
                 console.log(data);
-                var html="<table class=\"layui-table\">";
+                var html="<table class=\"layui-table\" lay-size=\"sm\" lay-even=\"\" lay-skin=\"line\">";
                 html+="<thead><tr><th>目标</th><th>优先级</th><th>计划日期</th><th>完成进度%</th></tr></thead>";
                 for(var i in data){
                     html+="<tr>";
