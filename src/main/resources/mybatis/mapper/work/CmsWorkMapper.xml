@@ -38,7 +38,7 @@
         <if test="orgid!=null and orgid!=''">
             and t.createuser in (select usercode from sys_user where orgid  in(select id from ggs.sys_org t  start with t.id=#{orgid} connect by prior t.id=t.pid) )
         </if>
-        order by t.isfinish,t.id desc)t)t where t.rn>=#{start} and rownum<![CDATA[<=]]>#{limit}
+        order by t.createdate desc,t.id desc)t)t where t.rn>=#{start} and rownum<![CDATA[<=]]>#{limit}
     </select>
 
     <select id="queryCount" resultType="Integer" parameterType="com.ggs.admin.module.work.model.CmsWorkModel">
