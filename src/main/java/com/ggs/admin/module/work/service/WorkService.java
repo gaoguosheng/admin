@@ -289,4 +289,12 @@ public class WorkService{
     public List<Map<String,Object>> queryWorkLog(CmsWorkModel model){
         return cmsWorkMapper.queryLog(model);
     }
+
+
+    /**
+     * 统计待办事项
+     * */
+    public List<Map<String,Object>> countUnfinishWorks(WorkGoalModel model){
+        return workGoalMapper.countUnfinishWorks(model);
+    }
 }

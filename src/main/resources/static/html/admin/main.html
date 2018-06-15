@@ -28,11 +28,50 @@
         </div>
         <div class="layui-col-md4">
             <div class="layui-card">
-                <div class="layui-card-header"><b>任务趋势</b></div>
+                <div class="layui-card-header"><b>待办事项</b></div>
                 <div class="layui-card-body">
-                    <div id="weeksTotalContainer" style="height: 200px;"></div>
+                    <div id="" style="height: 200px;text-align: center">
+
+                        <div class="layui-row layui-col-space15">
+                            <div class="layui-col-md6">
+                                <div class="layui-card">
+                                    <div class="layui-card-header"><b>待完成目标</b></div>
+                                    <div class="layui-card-body">
+                                        <a href="#" style="font-size: x-large;color: red" onclick="parent.active.tabAdd('待完成目标','workgoal/index.do?isfinish=0','workGoalUnFinish');"><span id="goalUnFinishCount">0</span></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md6">
+                                <div class="layui-card">
+                                    <div class="layui-card-header"><b>待竣工任务</b></div>
+                                    <div class="layui-card-body">
+                                        <a href="#" style="font-size: x-large;color: red" onclick="parent.active.tabAdd('待竣工任务','cmswork/index.do?isfinish=0','workUnFinish');"><span id="workUnFinishCount">0</span></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="layui-col-md6">
+                                <div class="layui-card">
+                                    <div class="layui-card-header"><b>待解决问题</b></div>
+                                    <div class="layui-card-body">
+                                        <a href="#" style="font-size: x-large;color: red"  onclick="parent.active.tabAdd('待解决问题','problem/index.do?isfinish=0','problemUnFinish');"><span id="problemUnFinishCount">0</span></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md6">
+                                <div class="layui-card">
+                                    <div class="layui-card-header">…</div>
+                                    <div class="layui-card-body">
+                                        <a href="#" style="font-size: x-large;color: red">&nbsp;</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
                 </div>
             </div>
+        </div>
         </div>
         <div class="layui-col-md8">
             <div class="layui-card">
@@ -69,10 +108,10 @@
         </div>
         <div class="layui-col-md4">
             <div class="layui-card">
-                <div class="layui-card-header"><b>问题分析</b></div>
+                <div class="layui-card-header"><b>趋势分析</b></div>
                 <div class="layui-card-body">
+                    <div id="weeksTotalContainer" style="height: 200px;"></div>
                     <div id="weeksProblemTotalContainer" style="height: 200px;"></div>
-                    <div id="problemCauseTotalContainer" style="height: 200px;"></div>
                 </div>
             </div>
         </div>
@@ -85,7 +124,14 @@
                 </div>
             </div>
         </div>
-
+        <div class="layui-col-md4">
+            <div class="layui-card">
+                <div class="layui-card-header"><b>问题分析</b></div>
+                <div class="layui-card-body">
+                    <div id="problemCauseTotalContainer" style="height: 200px;"></div>
+                </div>
+            </div>
+        </div>
 
 
     </div>
@@ -496,14 +542,14 @@
             success: function(data){
                 console.log(data);
                 var html="<table class=\"layui-table\" lay-size=\"sm\" lay-even=\"\" lay-skin=\"line\">";
-                html+="<thead><tr><th>目标</th><th>优先级</th><th>计划日期</th><th>完成进度%</th><th>最新进展</th></tr></thead>";
+                html+="<thead><tr><th>目标</th><th>优先级</th><th>计划日期</th><th>负责人</th><th>完成进度%</th></tr></thead>";
                 for(var i in data){
                     html+="<tr>";
                     html+="<td class='layui-table-cell'>"+data[i].GOALNAME+"</td>";
                     html+="<td class='layui-table-cell'>"+data[i].PRIORITY+"</td>";
                     html+="<td class='layui-table-cell'>"+data[i].PLANDATE+"</td>";
+                    html+="<td class='layui-table-cell'>"+data[i].TOUSERNAME+"</td>";
                     html+="<td class='layui-table-cell'>"+data[i].SCHEDULE+"</td>";
-                    html+="<td class='layui-table-cell'>"+data[i].REMARK+"</td>";
                     html+="</tr>";
                 }
                 html+="</table>";
@@ -513,12 +559,42 @@
     }
 
 
-    loadWeekTotal();//加载周统计
+    /**
+     * 查询当月目标
+     * */
+    function countUnfinishWorks(){
+        $.ajax({
+            url: "workgoal/countUnfinishWorks.do",
+            type: "POST",
+            data:{},
+            dataType:'json',
+            success: function(data){
+                console.log(data);
+                for(var i in data){
+                    if(data[i].WORKTYPE=="goal"){
+                        $("#goalUnFinishCount").html(data[i].COUNTER);
+                    }else if(data[i].WORKTYPE=="work"){
+                        $("#workUnFinishCount").html(data[i].COUNTER);
+                    }else if(data[i].WORKTYPE=="problem"){
+                        $("#problemUnFinishCount").html(data[i].COUNTER);
+                    }
+                }
 
-    loadWeekProblemTotal();//加载问题周统计
+            }
+        });
+    }
+
+    $(function(){
+        loadWeekTotal();//加载周统计
+
+        loadWeekProblemTotal();//加载问题周统计
+
+        queryMonthGoal();//目标看板
+
+        countUnfinishWorks();//待办事项
+    });
 
 
-    queryMonthGoal();//目标看板
 
 
 </script>

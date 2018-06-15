@@ -15,6 +15,12 @@
         left join sys_user t3 on t.createuser=t3.usercode
         left join sys_org t4 on t4.id=t3.orgid
         where 1=1
+        <if test="touser!=null and touser!=''">
+            and (t.touser=#{touser} or t.createuser=#{touser})
+        </if>
+        <if test="username!=null and username!=''">
+            and t2.username like '%' ||  #{username} || '%'
+        </if>
         <if test="goalname!=null and goalname!=''">
             and t.goalname like '%' ||  #{goalname} || '%'
         </if>
@@ -122,7 +128,17 @@
 
     <select id="queryLog" parameterType="com.ggs.admin.module.work.model.WorkGoalModel" resultType="HashMap">
         select * from (
-        select * from cms_log t where t.objid=#{id} and t.objtype='workgoal' order by t.SYSOPERTIME desc)where rownum<![CDATA[<=]]>20
+        select t2.username,t.* from cms_log t
+        left join sys_user t2 on t.createuser=t2.usercode
+        where t.objid=#{id} and t.objtype='workgoal' order by t.SYSOPERTIME desc)where rownum<![CDATA[<=]]>20
+    </select>
+
+    <select id="countUnfinishWorks" parameterType="com.ggs.admin.module.work.model.WorkGoalModel" resultType="HashMap">
+        select 'goal' worktype,count(*)counter from ggs.cms_work_goal t where t.touser=#{touser} and t.isfinish='0'
+        union all
+        select 'work' ,count(*) from ggs.cms_work t where t.touser=#{touser} and t.isfinish='0'
+        union all
+        select 'problem' ,count(*) from ggs.cms_problem t where t.touser=#{touser} and t.isfinish='0'
     </select>
 
 </mapper>

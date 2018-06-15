@@ -290,7 +290,9 @@
 
     <select id="queryLog" parameterType="com.ggs.admin.module.work.model.CmsWorkModel" resultType="HashMap">
         select * from (
-        select * from cms_log t where t.objid=#{id} and t.objtype='cmswork' order by t.SYSOPERTIME desc)where rownum<![CDATA[<=]]>20
+        select t2.username,t.* from cms_log t
+        left join sys_user t2 on t.createuser=t2.usercode
+        where t.objid=#{id} and t.objtype='cmswork' order by t.SYSOPERTIME desc)where rownum<![CDATA[<=]]>20
     </select>
 
 </mapper>

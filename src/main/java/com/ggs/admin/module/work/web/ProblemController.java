@@ -34,8 +34,9 @@ public class ProblemController extends BaseController {
     private SysService sysService;
 
     @RequestMapping("index.do")
-    public String index(ModelMap map) {
+    public String index(ModelMap map,ProblemModel model) {
         loadDatadict(map);
+        map.put("model",model);
         return path+"/index";
     }
 

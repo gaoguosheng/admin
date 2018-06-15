@@ -19,4 +19,5 @@ public interface WorkGoalMapper {
     public List<Map<String,Object>> queryMonthGoal(WorkGoalModel model);
     public void log(WorkGoalModel model);
     public List<Map<String,Object>> queryLog(WorkGoalModel model);
+    public List<Map<String,Object>> countUnfinishWorks(WorkGoalModel model);
 }

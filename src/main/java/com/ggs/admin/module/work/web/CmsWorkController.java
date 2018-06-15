@@ -31,7 +31,8 @@ public class CmsWorkController  extends BaseController {
     private WorkService service;
 
     @RequestMapping("index.do")
-    public String index(HashMap<String, Object> map) {
+    public String index(ModelMap map,CmsWorkModel model) {
+        map.put("model",model);
         return path+"/index";
     }
 

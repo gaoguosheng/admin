@@ -20,6 +20,7 @@
         <!-- 内容主体区域 -->
         <div style="padding: 15px;">
             <form class="layui-form" action="">
+                <input type="hidden" name="isfinish" id="isfinish" th:value="${model.isfinish}">
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">目标批次</label>
@@ -31,6 +32,12 @@
                     <label class="layui-form-label">目标名称</label>
                     <div class="layui-input-inline">
                         <input type="text" name="goalname"  id="goalname" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">负责人</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="username"  id="username" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
@@ -82,7 +89,7 @@
 <script src="../../../lib/layui/layui.js" charset="utf-8"></script>
 
 <script>
-    var params;
+    var params={isfinish:$("#isfinish").val()};
     var table;
     var form;
     var laydate;

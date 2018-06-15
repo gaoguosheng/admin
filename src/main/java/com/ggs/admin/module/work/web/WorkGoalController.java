@@ -31,7 +31,8 @@ public class WorkGoalController extends BaseController {
     private WorkService service;
 
     @RequestMapping("index.do")
-    public String index(HashMap<String, Object> map) {
+    public String index(ModelMap map,WorkGoalModel model) {
+        map.addAttribute("model",model);
         return path+"/index";
     }
 
@@ -44,6 +45,14 @@ public class WorkGoalController extends BaseController {
     @ResponseBody
     public PageModel query(WorkGoalModel model, @SessionAttribute UserModel  admin){
         model.setTouser(admin.getUsercode());
+        model.setOrgid(admin.getOrgid());
+        PageModel pageModel = service.queryWorkGoal(model);
+        return  pageModel;
+    }
+
+    @RequestMapping("queryAll.do")
+    @ResponseBody
+    public PageModel queryAll(WorkGoalModel model, @SessionAttribute UserModel  admin){
         model.setOrgid(admin.getOrgid());
         PageModel pageModel = service.queryWorkGoal(model);
         return  pageModel;
@@ -96,6 +105,14 @@ public class WorkGoalController extends BaseController {
         model.setTouser(admin.getUsercode());
         model.setOrgid(admin.getOrgid());
         List list= service.queryGoalLog(model);
+        return  list;
+    }
+
+    @RequestMapping("countUnfinishWorks.do")
+    @ResponseBody
+    public List countUnfinishWorks(WorkGoalModel model, @SessionAttribute UserModel  admin){
+        model.setTouser(admin.getUsercode());
+        List list= service.countUnfinishWorks(model);
         return  list;
     }
 }

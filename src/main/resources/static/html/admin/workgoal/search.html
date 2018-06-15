@@ -34,6 +34,12 @@
                     </div>
                 </div>
                 <div class="layui-inline">
+                    <label class="layui-form-label">负责人</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="username"  id="username" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
                     <div class="layui-input-inline">
                         <button class="layui-btn" lay-submit="" lay-filter="search">查询</button>
                     </div>
@@ -67,7 +73,7 @@
         table.render({
             id:'cmswork'
             ,elem: '#cmsWorkTable'
-            ,url:'query.do'
+            ,url:'queryAll.do'
             ,where:params
             ,cols: [[
                 {type:'numbers'}
@@ -254,7 +260,7 @@
                             for(var i in data){
                                 html+="<tr>";
                                 html+="<td>"+data[i].CREATEDATE +" "+data[i].CREATETIME+"</td>";
-                                html+="<td>"+data[i].CREATEUSER+"</td>";
+                                html+="<td>"+data[i].USERNAME+"</td>";
                                 html+="<td>"+data[i].REMARK+"</td>";
                                 html+="</tr>";
                             }
