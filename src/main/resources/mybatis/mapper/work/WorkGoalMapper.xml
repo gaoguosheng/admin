@@ -42,7 +42,17 @@
     <select id="queryCount" resultType="Integer" parameterType="com.ggs.admin.module.work.model.CmsWorkModel">
         SELECT
         count(*)counter
-        FROM cms_work_goal  t where 1=1
+        FROM cms_work_goal  t
+        left join sys_user t2 on t.touser=t2.usercode
+        left join sys_user t3 on t.createuser=t3.usercode
+        left join sys_org t4 on t4.id=t3.orgid
+        where 1=1
+        <if test="touser!=null and touser!=''">
+            and (t.touser=#{touser} or t.createuser=#{touser})
+        </if>
+        <if test="username!=null and username!=''">
+            and t2.username like '%' ||  #{username} || '%'
+        </if>
         <if test="goalname!=null and goalname!=''">
             and t.goalname like '%' ||  #{goalname} || '%'
         </if>

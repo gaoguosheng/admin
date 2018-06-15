@@ -37,7 +37,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">负责人</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="username"  id="username" autocomplete="off" class="layui-input">
+                        <input type="text" name="username"  id="username" autocomplete="off" class="layui-input" th:value="${model.username}">
                     </div>
                 </div>
                 <div class="layui-inline">
@@ -89,7 +89,7 @@
 <script src="../../../lib/layui/layui.js" charset="utf-8"></script>
 
 <script>
-    var params={isfinish:$("#isfinish").val()};
+    var params={isfinish:$("#isfinish").val(),username:$("#username").val()};
     var table;
     var form;
     var laydate;

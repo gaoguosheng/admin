@@ -37,7 +37,7 @@
                                 <div class="layui-card">
                                     <div class="layui-card-header"><b>待完成目标</b></div>
                                     <div class="layui-card-body">
-                                        <a href="#" style="font-size: x-large;color: red" onclick="parent.active.tabAdd('待完成目标','workgoal/index.do?isfinish=0','workGoalUnFinish');"><span id="goalUnFinishCount">0</span></a>
+                                        <a href="#" style="font-size: x-large;color: red" onclick="parent.active.tabAdd('待完成目标','workgoal/index.do?isfinish=0&username='+parent.adminUsername.value,'workGoalUnFinish');"><span id="goalUnFinishCount">0</span></a>
                                     </div>
                                 </div>
                             </div>
@@ -45,7 +45,7 @@
                                 <div class="layui-card">
                                     <div class="layui-card-header"><b>待竣工任务</b></div>
                                     <div class="layui-card-body">
-                                        <a href="#" style="font-size: x-large;color: red" onclick="parent.active.tabAdd('待竣工任务','cmswork/index.do?isfinish=0','workUnFinish');"><span id="workUnFinishCount">0</span></a>
+                                        <a href="#" style="font-size: x-large;color: red" onclick="parent.active.tabAdd('待竣工任务','cmswork/index.do?isfinish=0&name='+parent.adminUsername.value,'workUnFinish');"><span id="workUnFinishCount">0</span></a>
                                     </div>
                                 </div>
                             </div>
@@ -54,7 +54,7 @@
                                 <div class="layui-card">
                                     <div class="layui-card-header"><b>待解决问题</b></div>
                                     <div class="layui-card-body">
-                                        <a href="#" style="font-size: x-large;color: red"  onclick="parent.active.tabAdd('待解决问题','problem/index.do?isfinish=0','problemUnFinish');"><span id="problemUnFinishCount">0</span></a>
+                                        <a href="#" style="font-size: x-large;color: red"  onclick="parent.active.tabAdd('待解决问题','problem/index.do?isfinish=0&username='+parent.adminUsername.value,'problemUnFinish');"><span id="problemUnFinishCount">0</span></a>
                                     </div>
                                 </div>
                             </div>
