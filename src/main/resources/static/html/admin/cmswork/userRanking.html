@@ -204,8 +204,31 @@
 
 
 
+    $(function() {
+
+        var timer, scrollTop, sideDiv = $('#fudong').appendTo('body');
+        $(window).scroll(function() {
+            timer && clearTimeout(timer);
+            scrollTop = $(this).scrollTop();
+            timer = setTimeout(function() {
+                sideDiv.animate({
+                    top: scrollTop + 100 + 'px'
+                }, 600);
+            }, 200);
+        });
+    });
+
 
 </script>
-</body>
+
+    <div id="fudong" style="border:0px solid #454545; width:150px; height:150px; position: absolute; right: 80px; bottom: 20px;">
+        <img src="../../../img/print.gif">
+    </div>
+
+
+
+
+
+    </body>
 
 </html>
