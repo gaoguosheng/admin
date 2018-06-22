@@ -133,13 +133,14 @@
 
              function loadTable(){
                 table.render({
+                    even: true, //开启隔行背景
                     id:'cmswork'
                     ,elem: '#cmsWorkTable'
                     ,url:'queryAll.do'
                     ,where:params
                     ,cols: [[
                      {type:'numbers'}
-                     ,{field:'CREATEDATE', title:'日期',sort: true,width:110}
+                     ,{field:'CREATEDATE', title:'安排日期',sort: true,width:110}
                      ,{field:'ORGNAME', title:'组织',width:80}
                      ,{field:'TOUSERNAME', title:'负责人',width:80}
                      ,{field:'TASKNO', title:'任务单号',width:250}

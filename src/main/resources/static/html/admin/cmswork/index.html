@@ -96,6 +96,13 @@
                 <input type="checkbox" name="isfinish" value="{{d.ID}}" title="竣工"  {{ d.ISFINISH == 1 ? 'checked' : '' }}  lay-filter="checkITem" />
             </script>
 
+            <script type="text/html" id="planDateTpl">
+                <input type="text"  class="layui-input"  id="planDate{{d.ID}}"  value="{{d.CREATEDATE}}" onfocus="laydate.render({elem: '#planDate{{d.ID}}',show: true,done: function(value, date, endDate){
+                update('{{d.ID}}','createdate',value);
+                }
+                });" style="border: 0px;" >
+            </script>
+
         </div>
 
 
@@ -108,6 +115,7 @@
     var form;
     function loadTable(){
         table.render({
+            even: true, //开启隔行背景
             id:'cmswork'
             ,elem: '#cmsWorkTable'
             ,url:'query.do'
@@ -115,7 +123,7 @@
             ,cols: [[
                 {type:'numbers'}
                 ,{type: 'checkbox'}
-                ,{field:'CREATEDATE', title:'日期',sort: true,width:110}
+                ,{field:'CREATEDATE', title:'安排日期',sort: true,width:120,templet:'#planDateTpl'}
                 ,{field:'TASKNO', title:'任务单号',edit: 'text',width:250}
                 ,{field:'TASKNAME', title: '任务名称', edit: 'text',width:250}
                 ,{field:'TOUSERNAME', title:'负责人',width:80}
@@ -136,10 +144,11 @@
     /**
      * 初始化
      * */
+    var laydate;
     function init(){
 
         layui.use('laydate', function(){
-            var laydate = layui.laydate;
+            laydate= layui.laydate;
             //日期范围
             laydate.render({
                 elem: '#daterange'
@@ -274,6 +283,18 @@
                 return false;
             });
 
+        });
+    }
+
+    function update(id,key,value){
+        $.ajax({
+            url: "update.do",
+            type: "POST",
+            data:"id="+id+"&"+key+"="+value,
+            success: function(data){
+                console.log(data);
+                layer.msg("更新成功");
+            }
         });
     }
 

@@ -113,6 +113,9 @@
         <if test="isfinish!=null">
             ,isfinish=#{isfinish},finishdate=to_char(sysdate,'yyyy-mm-dd')
         </if>
+        <if test="createdate!=null">
+            ,createdate=#{createdate}
+        </if>
         where id=#{id}
     </update>
     
